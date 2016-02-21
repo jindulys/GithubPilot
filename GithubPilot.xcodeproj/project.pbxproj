@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E29C2B11C7956B900B1F306 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2B01C7956B900B1F306 /* TestHelper.swift */; };
+		0E29C2B81C7956C500B1F306 /* repo.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B31C7956C500B1F306 /* repo.json */; };
+		0E29C2B91C7956C500B1F306 /* user_me.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B41C7956C500B1F306 /* user_me.json */; };
+		0E29C2BA1C7956C500B1F306 /* user_mietzmithut.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B51C7956C500B1F306 /* user_mietzmithut.json */; };
+		0E29C2BB1C7956C500B1F306 /* user_repos.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B61C7956C500B1F306 /* user_repos.json */; };
+		0E29C2BC1C7956C500B1F306 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B71C7956C500B1F306 /* users.json */; };
 		0EB278AD1C78FAD300317F91 /* GithubPilot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB278AC1C78FAD300317F91 /* GithubPilot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EB278B41C78FAD300317F91 /* GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB278A91C78FAD300317F91 /* GithubPilot.framework */; };
 		0EB278B91C78FAD300317F91 /* GithubPilotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */; };
@@ -19,6 +25,8 @@
 		0EB278D31C78FDE700317F91 /* GithubUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CA1C78FDE700317F91 /* GithubUser.swift */; };
 		0EB278D41C78FDE700317F91 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CB1C78FDE700317F91 /* OAuth.swift */; };
 		0EB278D51C78FDE700317F91 /* UsersRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CC1C78FDE700317F91 /* UsersRoutes.swift */; };
+		4B35ECDD56E10841D03ABA56 /* Pods_GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1BB758A6205D4E524E97400 /* Pods_GithubPilot.framework */; };
+		50B171312F025FFDE4A1BC5A /* Pods_GithubPilotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E9F9B1FBAD14C33FFED089 /* Pods_GithubPilotTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +40,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E29C2B01C7956B900B1F306 /* TestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
+		0E29C2B31C7956C500B1F306 /* repo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = repo.json; sourceTree = "<group>"; };
+		0E29C2B41C7956C500B1F306 /* user_me.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_me.json; sourceTree = "<group>"; };
+		0E29C2B51C7956C500B1F306 /* user_mietzmithut.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_mietzmithut.json; sourceTree = "<group>"; };
+		0E29C2B61C7956C500B1F306 /* user_repos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_repos.json; sourceTree = "<group>"; };
+		0E29C2B71C7956C500B1F306 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
+		0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GithubPilotTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0EB278A91C78FAD300317F91 /* GithubPilot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GithubPilot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB278AC1C78FAD300317F91 /* GithubPilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GithubPilot.h; sourceTree = "<group>"; };
 		0EB278AE1C78FAD300317F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +62,12 @@
 		0EB278CA1C78FDE700317F91 /* GithubUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubUser.swift; sourceTree = "<group>"; };
 		0EB278CB1C78FDE700317F91 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
 		0EB278CC1C78FDE700317F91 /* UsersRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersRoutes.swift; sourceTree = "<group>"; };
+		1B14A3AE155EA5852DF9B15B /* Pods-GithubPilot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilot/Pods-GithubPilot.debug.xcconfig"; sourceTree = "<group>"; };
+		52AFDABA5C663AE76D946B23 /* Pods-GithubPilot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilot.release.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilot/Pods-GithubPilot.release.xcconfig"; sourceTree = "<group>"; };
+		AF90D8B545C800FFC5CFABA8 /* Pods-GithubPilotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilotTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C2E9F9B1FBAD14C33FFED089 /* Pods_GithubPilotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubPilotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1BB758A6205D4E524E97400 /* Pods_GithubPilot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GithubPilot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5AF0748122EBB946C94F012 /* Pods-GithubPilotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilotTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B35ECDD56E10841D03ABA56 /* Pods_GithubPilot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,12 +84,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EB278B41C78FAD300317F91 /* GithubPilot.framework in Frameworks */,
+				50B171312F025FFDE4A1BC5A /* Pods_GithubPilotTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E29C2B21C7956C500B1F306 /* FakeData */ = {
+			isa = PBXGroup;
+			children = (
+				0E29C2B31C7956C500B1F306 /* repo.json */,
+				0E29C2B41C7956C500B1F306 /* user_me.json */,
+				0E29C2B51C7956C500B1F306 /* user_mietzmithut.json */,
+				0E29C2B61C7956C500B1F306 /* user_repos.json */,
+				0E29C2B71C7956C500B1F306 /* users.json */,
+			);
+			path = FakeData;
+			sourceTree = "<group>";
+		};
 		0EB2789F1C78FAD300317F91 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +110,8 @@
 				0EB278AB1C78FAD300317F91 /* GithubPilot */,
 				0EB278B71C78FAD300317F91 /* GithubPilotTests */,
 				0EB278AA1C78FAD300317F91 /* Products */,
+				E3355BEAFF037BF247B46B13 /* Pods */,
+				CD796E1E14A5A42E9ABCCB1D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,8 +136,11 @@
 		0EB278B71C78FAD300317F91 /* GithubPilotTests */ = {
 			isa = PBXGroup;
 			children = (
+				0E29C2B21C7956C500B1F306 /* FakeData */,
+				0E29C2B01C7956B900B1F306 /* TestHelper.swift */,
 				0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */,
 				0EB278BA1C78FAD300317F91 /* Info.plist */,
+				0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */,
 			);
 			path = GithubPilotTests;
 			sourceTree = "<group>";
@@ -121,6 +161,26 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		CD796E1E14A5A42E9ABCCB1D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2E9F9B1FBAD14C33FFED089 /* Pods_GithubPilotTests.framework */,
+				E1BB758A6205D4E524E97400 /* Pods_GithubPilot.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E3355BEAFF037BF247B46B13 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AF90D8B545C800FFC5CFABA8 /* Pods-GithubPilotTests.debug.xcconfig */,
+				E5AF0748122EBB946C94F012 /* Pods-GithubPilotTests.release.xcconfig */,
+				1B14A3AE155EA5852DF9B15B /* Pods-GithubPilot.debug.xcconfig */,
+				52AFDABA5C663AE76D946B23 /* Pods-GithubPilot.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -139,10 +199,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EB278BD1C78FAD300317F91 /* Build configuration list for PBXNativeTarget "GithubPilot" */;
 			buildPhases = (
+				28D73DF28A34868D176CAECC /* Check Pods Manifest.lock */,
 				0EB278A41C78FAD300317F91 /* Sources */,
 				0EB278A51C78FAD300317F91 /* Frameworks */,
 				0EB278A61C78FAD300317F91 /* Headers */,
 				0EB278A71C78FAD300317F91 /* Resources */,
+				8D55F3EE79570BCE1481BF47 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -157,9 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EB278C01C78FAD300317F91 /* Build configuration list for PBXNativeTarget "GithubPilotTests" */;
 			buildPhases = (
+				87F108B5362D9A88CBBB1423 /* Check Pods Manifest.lock */,
 				0EB278AF1C78FAD300317F91 /* Sources */,
 				0EB278B01C78FAD300317F91 /* Frameworks */,
 				0EB278B11C78FAD300317F91 /* Resources */,
+				792986D82F55BC986580CB48 /* Embed Pods Frameworks */,
+				BEB6019CEB4F0A764A18C6E8 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -219,10 +284,93 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E29C2BC1C7956C500B1F306 /* users.json in Resources */,
+				0E29C2B91C7956C500B1F306 /* user_me.json in Resources */,
+				0E29C2BA1C7956C500B1F306 /* user_mietzmithut.json in Resources */,
+				0E29C2BB1C7956C500B1F306 /* user_repos.json in Resources */,
+				0E29C2B81C7956C500B1F306 /* repo.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28D73DF28A34868D176CAECC /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		792986D82F55BC986580CB48 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87F108B5362D9A88CBBB1423 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8D55F3EE79570BCE1481BF47 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubPilot/Pods-GithubPilot-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEB6019CEB4F0A764A18C6E8 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0EB278A41C78FAD300317F91 /* Sources */ = {
@@ -246,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EB278B91C78FAD300317F91 /* GithubPilotTests.swift in Sources */,
+				0E29C2B11C7956B900B1F306 /* TestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +432,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCTOOT)/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -331,6 +481,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCTOOT)/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -351,6 +502,7 @@
 		};
 		0EB278BE1C78FAD300317F91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B14A3AE155EA5852DF9B15B /* Pods-GithubPilot.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -367,6 +519,7 @@
 		};
 		0EB278BF1C78FAD300317F91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 52AFDABA5C663AE76D946B23 /* Pods-GithubPilot.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -383,21 +536,28 @@
 		};
 		0EB278C11C78FAD300317F91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF90D8B545C800FFC5CFABA8 /* Pods-GithubPilotTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GithubPilotTests/GithubPilotTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		0EB278C21C78FAD300317F91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5AF0748122EBB946C94F012 /* Pods-GithubPilotTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GithubPilotTests/GithubPilotTests-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -420,6 +580,7 @@
 				0EB278BF1C78FAD300317F91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0EB278C01C78FAD300317F91 /* Build configuration list for PBXNativeTarget "GithubPilotTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +589,7 @@
 				0EB278C21C78FAD300317F91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

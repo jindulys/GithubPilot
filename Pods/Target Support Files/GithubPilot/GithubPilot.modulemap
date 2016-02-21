@@ -1,0 +1,6 @@
+framework module GithubPilot {
+  umbrella header "GithubPilot-umbrella.h"
+
+  export *
+  module * { export * }
+}

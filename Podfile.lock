@@ -1,0 +1,17 @@
+PODS:
+  - Alamofire (3.2.0)
+  - GithubPilot (0.1.1):
+    - Alamofire (~> 3.0)
+  - Nocilla (0.10.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - GithubPilot (~> 0.1.1)
+  - Nocilla
+
+SPEC CHECKSUMS:
+  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
+  GithubPilot: 03674649f3df996c717cfc24c7804bffb033620a
+  Nocilla: ae0a2b05f3087b473624ac2b25903695df51246a
+
+COCOAPODS: 0.39.0
