@@ -13,6 +13,7 @@
 		0E29C2BA1C7956C500B1F306 /* user_mietzmithut.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B51C7956C500B1F306 /* user_mietzmithut.json */; };
 		0E29C2BB1C7956C500B1F306 /* user_repos.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B61C7956C500B1F306 /* user_repos.json */; };
 		0E29C2BC1C7956C500B1F306 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B71C7956C500B1F306 /* users.json */; };
+		0E29C2CA1C7966F300B1F306 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2C91C7966F300B1F306 /* README.md */; };
 		0EB278AD1C78FAD300317F91 /* GithubPilot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB278AC1C78FAD300317F91 /* GithubPilot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EB278B41C78FAD300317F91 /* GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB278A91C78FAD300317F91 /* GithubPilot.framework */; };
 		0EB278B91C78FAD300317F91 /* GithubPilotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */; };
@@ -47,6 +48,7 @@
 		0E29C2B61C7956C500B1F306 /* user_repos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user_repos.json; sourceTree = "<group>"; };
 		0E29C2B71C7956C500B1F306 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GithubPilotTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		0E29C2C91C7966F300B1F306 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0EB278A91C78FAD300317F91 /* GithubPilot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GithubPilot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB278AC1C78FAD300317F91 /* GithubPilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GithubPilot.h; sourceTree = "<group>"; };
 		0EB278AE1C78FAD300317F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		0EB278AB1C78FAD300317F91 /* GithubPilot */ = {
 			isa = PBXGroup;
 			children = (
+				0E29C2C91C7966F300B1F306 /* README.md */,
 				0EB278AC1C78FAD300317F91 /* GithubPilot.h */,
 				0EB278AE1C78FAD300317F91 /* Info.plist */,
 			);
@@ -379,6 +382,7 @@
 			files = (
 				0EB278CF1C78FDE700317F91 /* Github.swift in Sources */,
 				0EB278CD1C78FDE700317F91 /* AuthenticationRoutes.swift in Sources */,
+				0E29C2CA1C7966F300B1F306 /* README.md in Sources */,
 				0EB278D21C78FDE700317F91 /* GithubSerializers.swift in Sources */,
 				0EB278CE1C78FDE700317F91 /* Constants.swift in Sources */,
 				0EB278D51C78FDE700317F91 /* UsersRoutes.swift in Sources */,
