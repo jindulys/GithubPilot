@@ -21,12 +21,10 @@ internal class Helper {
         return nil
     }
     
-    internal class func JSONFromFile(name: String) -> AnyObject {
+    internal class func JSONDataFromFile(name: String) -> NSData? {
         let bundle = NSBundle(forClass: self)
         let path = bundle.pathForResource(name, ofType: "json")!
-        let data = NSData(contentsOfFile: path)!
-        let dict: AnyObject? = try? NSJSONSerialization.JSONObjectWithData(data,
-            options: NSJSONReadingOptions.MutableContainers)
-        return dict!
+        let data = NSData(contentsOfFile: path)
+        return data
     }
 }

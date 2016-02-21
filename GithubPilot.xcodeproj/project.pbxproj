@@ -14,6 +14,7 @@
 		0E29C2BB1C7956C500B1F306 /* user_repos.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B61C7956C500B1F306 /* user_repos.json */; };
 		0E29C2BC1C7956C500B1F306 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B71C7956C500B1F306 /* users.json */; };
 		0E29C2CA1C7966F300B1F306 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2C91C7966F300B1F306 /* README.md */; };
+		0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2CB1C7967EF00B1F306 /* UserTests.swift */; };
 		0EB278AD1C78FAD300317F91 /* GithubPilot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB278AC1C78FAD300317F91 /* GithubPilot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EB278B41C78FAD300317F91 /* GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB278A91C78FAD300317F91 /* GithubPilot.framework */; };
 		0EB278B91C78FAD300317F91 /* GithubPilotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */; };
@@ -49,6 +50,7 @@
 		0E29C2B71C7956C500B1F306 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GithubPilotTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		0E29C2C91C7966F300B1F306 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0E29C2CB1C7967EF00B1F306 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		0EB278A91C78FAD300317F91 /* GithubPilot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GithubPilot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB278AC1C78FAD300317F91 /* GithubPilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GithubPilot.h; sourceTree = "<group>"; };
 		0EB278AE1C78FAD300317F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */,
 				0EB278BA1C78FAD300317F91 /* Info.plist */,
 				0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */,
+				0E29C2CB1C7967EF00B1F306 /* UserTests.swift */,
 			);
 			path = GithubPilotTests;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */,
 				0EB278B91C78FAD300317F91 /* GithubPilotTests.swift in Sources */,
 				0E29C2B11C7956B900B1F306 /* TestHelper.swift in Sources */,
 			);
@@ -543,6 +547,11 @@
 			baseConfigurationReference = AF90D8B545C800FFC5CFABA8 /* Pods-GithubPilotTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Private/Nocilla\"",
+					"\"${PODS_ROOT}/Headers/Private\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;
@@ -557,6 +566,11 @@
 			baseConfigurationReference = E5AF0748122EBB946C94F012 /* Pods-GithubPilotTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers/Private/Nocilla\"",
+					"\"${PODS_ROOT}/Headers/Private\"",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;
