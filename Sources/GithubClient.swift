@@ -13,6 +13,7 @@ public class GithubClient: GithubNetWorkClient {
     let accessToken: String
     
     public var users: UsersRoutes!
+    public var repos: ReposRoutes!
     
     public override func additionalHeaders(needoauth: Bool) -> [String : String] {
         var headers: [String: String] = [:]
@@ -36,5 +37,6 @@ public class GithubClient: GithubNetWorkClient {
         self.accessToken = accessToken
         super.init(manager: manager, baseHosts: baseHosts)
         self.users = UsersRoutes(client: self)
+        self.repos = ReposRoutes(client: self)
     }
 }

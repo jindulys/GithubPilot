@@ -12,6 +12,7 @@ import Foundation
 public class Github {
     /// authorizedClient used for the whole app to interact with Github API.
     public static var authorizedClient: GithubClient?
+    public static var authenticatedUser: GithubUser?
     
     public static func setupClientID(clientID: String, clientSecret: String, scope:[String], redirectURI: String) {
         precondition(GithubAuthManager.sharedAuthManager == nil, "Only call `Github.setupClientID` once")
@@ -56,6 +57,12 @@ class GithubManager: NSObject {
         
         if let accessToken = GithubAuthManager.sharedAuthManager.accessToken {
             Github.authorizedClient = GithubClient(accessToken: accessToken)
+            Github.authorizedClient?.users.getAuthenticatedUser().response({ (result, error) -> Void in
+                if let user = result {
+                    Github.authenticatedUser = user
+                }
+                // TODO: what if we could not get authenticated user, does this matter a lot?
+            })
         }
     }
     

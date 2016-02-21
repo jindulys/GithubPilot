@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// GithubUser represents a Github user.
 public class GithubUser {
     /// The user's login name
     public let login: String
