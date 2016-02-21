@@ -28,6 +28,16 @@ public class Github {
         precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before this method")
         GithubAuthManager.sharedAuthManager.requestAccessToken(url)
     }
+    
+    public static func unlink() {
+        precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before this method")
+        if Github.authorizedClient == nil {
+            return
+        }
+        
+        GithubAuthManager.sharedAuthManager.clearStoredAccessToken()
+        Github.authorizedClient = nil
+    }
 }
 
 /// Used for monitor Notification

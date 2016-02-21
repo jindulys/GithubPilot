@@ -49,7 +49,13 @@ public class GithubAuthManager {
      Github OAuth procedure.
      */
     public func authenticate() {
-        self.oAuthRouter.requestAuthentication(self.scope, clientID: self.clientID, redirectURI: self.redirectURI)
+        if let accessToken = DefaultStorage.get(key: Constants.AccessToken.GithubAccessTokenStorageKey) as? String {
+            self.accessToken = accessToken
+            self.oAuthResult = .Success(accessToken)
+            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NotificationKey.GithubAccessTokenRequestSuccess, object: nil)
+        } else {
+            self.oAuthRouter.requestAuthentication(self.scope, clientID: self.clientID, redirectURI: self.redirectURI)
+        }
     }
     
     public func requestAccessToken(url: NSURL) {
@@ -70,6 +76,11 @@ public class GithubAuthManager {
                         if isToken {
                             self.accessToken = item
                             self.oAuthResult = .Success(item)
+                            // Clear storaged access token
+                            DefaultStorage.clear(key: Constants.AccessToken.GithubAccessTokenStorageKey)
+                            // Save access token
+                            DefaultStorage.save(item,
+                                                withKey: Constants.AccessToken.GithubAccessTokenStorageKey)
                             break componentLoop
                         }
                         
@@ -81,6 +92,41 @@ public class GithubAuthManager {
                 NSNotificationCenter.defaultCenter().postNotificationName(Constants.NotificationKey.GithubAccessTokenRequestSuccess, object: nil)
             }
         }
+    }
+    
+    public func clearStoredAccessToken() {
+        DefaultStorage.clear(key: Constants.AccessToken.GithubAccessTokenStorageKey)
+    }
+}
+
+protocol PersistentStorage {
+    typealias valueType
+    typealias keyType
+    
+    static func save(info: valueType, withKey key: keyType) -> Void
+    static func get(key key: keyType) -> AnyObject?
+    static func clear(key key: keyType) -> Void
+}
+
+/// DefaultStorage use NSDefault to save information
+class DefaultStorage: PersistentStorage  {
+    
+    class func save(info: AnyObject, withKey key: String) -> Void {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(info, forKey: key)
+    }
+    
+    class func get(key key: String) -> AnyObject? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let value = defaults.objectForKey(key) {
+            return value
+        }
+        return nil
+    }
+    
+    class func clear(key key: String) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.removeObjectForKey(key)
     }
 }
 

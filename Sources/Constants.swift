@@ -13,4 +13,8 @@ struct Constants {
         static let GithubAccessTokenRequestSuccess = "GithubAccessTokenRequestSuccess"
         static let GithubAccessTokenRequestFailure = "GithubAccessTokenRequestFailure"
     }
+    
+    struct AccessToken {
+        static let GithubAccessTokenStorageKey = "GithubAccessTokenStorageKey"
+    }
 }
