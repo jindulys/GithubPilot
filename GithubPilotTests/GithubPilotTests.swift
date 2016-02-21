@@ -33,4 +33,14 @@ class GithubPilotTests: XCTestCase {
         }
     }
     
+    func testZeroBaseUnicodeScalarValue() {
+        let testString = "9"
+        let testCharacter = testString.characters[testString.startIndex]
+        XCTAssert(testCharacter.zeroCharacterBasedunicodeScalarCodePoint() == 9)
+        
+        let testStringZero = "0"
+        let testCharacterZero = testStringZero.characters[testString.startIndex]
+        XCTAssert(testCharacterZero.zeroCharacterBasedunicodeScalarCodePoint() == 0)
+    }
+    
 }
