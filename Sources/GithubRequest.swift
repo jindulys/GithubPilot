@@ -190,3 +190,32 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
     }
 }
 
+/// An "rpc-style" request
+public class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializer, T>: RpcRequest<RType, EType> {
+    var httpResponseHandler: ((NSHTTPURLResponse?)->T?)?
+    
+    /**
+     Designated Initializer
+     
+     - parameter customResponseHandler: custom handler to deal with HTTPURLResponse, usually you want to use this to extract info from Response's allHeaderFields.
+     */
+    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, customResponseHandler:((NSHTTPURLResponse?)->T?)? = nil, responseSerializer: RType, errorSerializer: EType) {
+        httpResponseHandler = customResponseHandler
+        super.init(client: client, host: host, route: route, method: method, params: params, postParams: postParams, postData: postData, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
+    }
+    
+    public func response(complitionHandler:(T?, RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
+        self.request.validate().response {
+            (request, response, data, error) -> Void in
+            let d = data!
+            let responseResult = self.httpResponseHandler?(response)
+            if error != nil {
+                complitionHandler(responseResult, nil, self.handleResponseError(response, data: d, error:error))
+            } else {
+                complitionHandler(responseResult, self.responseSerializer.deserialize(parseJSON(d)), nil)
+            }
+        }
+        return self
+    }
+}
+
