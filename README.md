@@ -172,7 +172,7 @@ Second, add following code to your **AppDelegate** to get Github _**access token
 
 You could refer to one of my project [GitPocket](https://github.com/jindulys/GitPocket) as an example.
 
-# Thanks to
+# Thanks
 
 [SwiftyDropbox](https://github.com/dropbox/SwiftyDropbox)
 
