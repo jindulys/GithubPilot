@@ -73,4 +73,10 @@ public class ReposRoutes {
         
         return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(owner)/repos", method: .GET, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: RepoArraySerializer(), errorSerializer: StringSerializer())
     }
+    
+    
+    public func getAPIRepo(url url: String) -> DirectAPIRequest<RepoSerializer, StringSerializer> {
+        precondition(url.characters.count != 0, "Could not accept void input")
+        return DirectAPIRequest(client: self.client, apiURL: url, method: .GET, responseSerializer: RepoSerializer(), errorSerializer: StringSerializer())
+    }
 }

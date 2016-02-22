@@ -42,6 +42,7 @@ public class UsersRoutes {
      - returns: an RpcCustomResponseRequest
      */
     public func getAllUsers(since: String) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+        precondition(since.characters.count != 0, "Invalid Input Since Parameter")
         let params = ["since": since]
         
         let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in

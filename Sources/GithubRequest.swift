@@ -120,6 +120,39 @@ public class GithubRequest<RType: JSONSerializer, EType: JSONSerializer> {
     }
 }
 
+/// A Request Object could directly use `API url`, provided by Github 
+public class DirectAPIRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubRequest<RType, EType> {
+    /**
+      Initialize a DirectAPIRequest Object
+
+     - parameter apiURL:             An API URL provided by some Github JSON response.
+
+     */
+    init(client:GithubNetWorkClient, apiURL: String, method: Alamofire.Method, params:[String: String] = ["": ""],responseSerializer: RType, errorSerializer: EType) {
+        var headers = ["Content-Type": "application/json"]
+        for (header, val) in client.additionalHeaders(true) {
+            headers[header] = val
+        }
+        
+        let request = client.manager.request(method, apiURL, parameters: params, headers: headers)
+        super.init(request: request, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
+        request.resume()
+    }
+    
+    public func response(complitionHandler:(RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
+        self.request.validate().response {
+            (request, response, data, error) -> Void in
+            let d = data!
+            if error != nil {
+                complitionHandler(nil, self.handleResponseError(response, data: d, error:error))
+            } else {
+                complitionHandler(self.responseSerializer.deserialize(parseJSON(d)), nil)
+            }
+        }
+        return self
+    }
+}
+
 /// An "rpc-style" request
 public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubRequest<RType, EType> {
     /**

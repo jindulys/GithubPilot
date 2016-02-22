@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct Constants {
-    struct NotificationKey {
-        static let GithubAccessTokenRequestSuccess = "GithubAccessTokenRequestSuccess"
-        static let GithubAccessTokenRequestFailure = "GithubAccessTokenRequestFailure"
+public struct Constants {
+    public struct NotificationKey {
+        public static let GithubAccessTokenRequestSuccess = "GithubAccessTokenRequestSuccess"
+        public static let GithubAccessTokenRequestFailure = "GithubAccessTokenRequestFailure"
     }
     
-    struct AccessToken {
-        static let GithubAccessTokenStorageKey = "GithubAccessTokenStorageKey"
+    public struct AccessToken {
+        public static let GithubAccessTokenStorageKey = "GithubAccessTokenStorageKey"
     }
 }
