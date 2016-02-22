@@ -18,7 +18,7 @@ public class GithubClient: GithubNetWorkClient {
     
     public override func additionalHeaders(needoauth: Bool) -> [String : String] {
         var headers: [String: String] = [:]
-        if (needoauth) {
+        if needoauth {
             headers["Authorization"] = "token \(accessToken)"
         }
         return headers
