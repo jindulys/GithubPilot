@@ -41,12 +41,12 @@ public enum RepoType: String {
 /// GithubRepo represents a Github Repo
 public class GithubRepo {
     public let id: Int32
-    public let owner: GithubUser
+    public let owner: GithubUser?
     public let name: String?
     public let fullName: String?
     public let description: String?
-    public let isPrivate: Bool
-    public let isFork: Bool
+    public let isPrivate: Bool?
+    public let isFork: Bool?
     public let url: String?
     public let htmlURL: String?
     public let cloneURL: String?
@@ -60,7 +60,7 @@ public class GithubRepo {
     public let createdAt: String?
     public let updatedAt: String?
     
-    init(id: Int32, owner: GithubUser, name: String? = nil, fullName: String? = nil, description: String? = nil, isPrivate: Bool, isFork: Bool, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+    init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, description: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
         self.id = id
         self.owner = owner
         self.name = name
@@ -91,12 +91,12 @@ public class RepoSerializer: JSONSerializer {
     public func serialize(value: GithubRepo) -> JSON {
         let retVal = [
             "id": Serialization._Int32Serializer.serialize(value.id),
-            "owner": self.userSerializer.serialize(value.owner),
+            "owner": NullableSerializer(self.userSerializer).serialize(value.owner),
             "name": NullableSerializer(Serialization._StringSerializer).serialize(value.name),
             "full_name": NullableSerializer(Serialization._StringSerializer).serialize(value.fullName),
             "description": NullableSerializer(Serialization._StringSerializer).serialize(value.description),
-            "private": Serialization._BoolSerializer.serialize(value.isPrivate),
-            "fork": Serialization._BoolSerializer.serialize(value.isFork),
+            "private": NullableSerializer(Serialization._BoolSerializer).serialize(value.isPrivate),
+            "fork": NullableSerializer(Serialization._BoolSerializer).serialize(value.isFork),
             "url": NullableSerializer(Serialization._StringSerializer).serialize(value.url),
             "html_url": NullableSerializer(Serialization._StringSerializer).serialize(value.htmlURL),
             "clone_url": NullableSerializer(Serialization._StringSerializer).serialize(value.cloneURL),
@@ -117,12 +117,12 @@ public class RepoSerializer: JSONSerializer {
         switch json {
             case .Dictionary(let dict):
                 let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .Null)
-                let owner = self.userSerializer.deserialize(dict["owner"] ?? .Null)
+                let owner = NullableSerializer(self.userSerializer).deserialize(dict["owner"] ?? .Null)
                 let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .Null)
                 let fullName = NullableSerializer(Serialization._StringSerializer).deserialize(dict["full_name"] ?? .Null)
                 let description = NullableSerializer(Serialization._StringSerializer).deserialize(dict["description"] ?? .Null)
-                let isPrivate = Serialization._BoolSerializer.deserialize(dict["private"] ?? .Null)
-                let isFork = Serialization._BoolSerializer.deserialize(dict["fork"] ?? .Null)
+                let isPrivate = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["private"] ?? .Null)
+                let isFork = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["fork"] ?? .Null)
                 let url = NullableSerializer(Serialization._StringSerializer).deserialize(dict["url"] ?? .Null)
                 let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .Null)
                 let cloneURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["clone_url"] ?? .Null)

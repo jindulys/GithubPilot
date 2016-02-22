@@ -17,8 +17,8 @@ public class GithubUser {
     public let avatarURL: String
     public let url: String
     public let name: String?
-    public let htmlURL: String
-    public let type: String
+    public let htmlURL: String?
+    public let type: String?
     public let followersURL: String?
     public let followingURL: String?
     public let gistsURL: String?
@@ -42,7 +42,7 @@ public class GithubUser {
     public let createdAt: String?
     public let updatedAt: String?
     
-    init(login: String, id: Int32, avatarURL: String, url: String, name: String?, htmlURL: String, type: String, followersURL: String? = nil, followingURL: String? = nil, gistsURL: String? = nil, starredURL: String? = nil, subscriptionsURL: String? = nil, organizationsURL: String? = nil, reposURL: String? = nil, eventsURL: String? = nil, receivedEventsURL: String? = nil, siteAdmin: Bool? = nil, company: String? = nil, blog: String? = nil, location: String? = nil, email: String? = nil, hireable: Bool? = nil, bio: String? = nil, publicRepos: Int32? = nil, publicGists: Int32? = nil, followers: Int32? = nil, following: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+    init(login: String, id: Int32, avatarURL: String, url: String, name: String?, htmlURL: String? = nil, type: String? = nil, followersURL: String? = nil, followingURL: String? = nil, gistsURL: String? = nil, starredURL: String? = nil, subscriptionsURL: String? = nil, organizationsURL: String? = nil, reposURL: String? = nil, eventsURL: String? = nil, receivedEventsURL: String? = nil, siteAdmin: Bool? = nil, company: String? = nil, blog: String? = nil, location: String? = nil, email: String? = nil, hireable: Bool? = nil, bio: String? = nil, publicRepos: Int32? = nil, publicGists: Int32? = nil, followers: Int32? = nil, following: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
         self.login        = login
         self.id           = id
         self.avatarURL    = avatarURL
@@ -83,8 +83,8 @@ extension GithubUser: CustomStringConvertible {
         retVal += "\tavatarURL : \(self.avatarURL)\n"
         retVal += "\turl   : \(self.url)\n"
         retVal += "\tname  : \(self.name ?? "")\n"
-        retVal += "\thtmlURL: \(self.htmlURL)\n"
-        retVal += "\ttype   : \(self.type)\n"
+        retVal += "\thtmlURL: \(self.htmlURL ?? "")\n"
+        retVal += "\ttype   : \(self.type ?? "")\n"
         retVal += "\tfollowersURL : \(self.followersURL ?? "")\n"
         retVal += "\tfollowingURL : \(self.followingURL ?? "")\n"
         retVal += "\tgistsURL : \(self.gistsURL ?? "")\n"
@@ -121,8 +121,8 @@ public class GithubUserSerializer: JSONSerializer {
             "avatar_url": Serialization._StringSerializer.serialize(value.avatarURL),
             "url": Serialization._StringSerializer.serialize(value.url),
             "name": NullableSerializer(Serialization._StringSerializer).serialize(value.name),
-            "html_url": Serialization._StringSerializer.serialize(value.htmlURL),
-            "type": Serialization._StringSerializer.serialize(value.type),
+            "html_url": NullableSerializer(Serialization._StringSerializer).serialize(value.htmlURL),
+            "type": NullableSerializer(Serialization._StringSerializer).serialize(value.type),
             "followers_url": NullableSerializer(Serialization._StringSerializer).serialize(value.followersURL),
             "following_url": NullableSerializer(Serialization._StringSerializer).serialize(value.followingURL),
             "gists_url": NullableSerializer(Serialization._StringSerializer).serialize(value.gistsURL),
@@ -157,8 +157,8 @@ public class GithubUserSerializer: JSONSerializer {
                 let avatarURL = Serialization._StringSerializer.deserialize(dict["avatar_url"] ?? .Null)
                 let url = Serialization._StringSerializer.deserialize(dict["url"] ?? .Null)
                 let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .Null)
-                let htmlURL = Serialization._StringSerializer.deserialize(dict["html_url"] ?? .Null)
-                let type = Serialization._StringSerializer.deserialize(dict["type"] ?? .Null)
+                let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .Null)
+                let type = NullableSerializer(Serialization._StringSerializer).deserialize(dict["type"] ?? .Null)
                 let followersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["followers_url"] ?? .Null)
                 let followingURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["following_url"] ?? .Null)
                 let gistsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["gists_url"] ?? .Null)
