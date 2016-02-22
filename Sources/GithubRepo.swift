@@ -54,13 +54,14 @@ public class GithubRepo {
     public let commentsURL: String?
     public let homepage: String?
     public let language: String?
+    public let stargazersURL: String?
     public let forksCount: Int32?
     public let stargazersCount: Int32?
     public let watchersCount: Int32?
     public let createdAt: String?
     public let updatedAt: String?
     
-    init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, description: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+    init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, description: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil, stargazersURL: String? = nil) {
         self.id = id
         self.owner = owner
         self.name = name
@@ -75,6 +76,7 @@ public class GithubRepo {
         self.commentsURL = commentsURL
         self.homepage = homepage
         self.language = language
+        self.stargazersURL = stargazersURL
         self.forksCount = forksCount
         self.stargazersCount = stargazersCount
         self.watchersCount = watchersCount
@@ -108,7 +110,8 @@ public class RepoSerializer: JSONSerializer {
             "stargazers_count": NullableSerializer(Serialization._Int32Serializer).serialize(value.stargazersCount),
             "watchers_count": NullableSerializer(Serialization._Int32Serializer).serialize(value.watchersCount),
             "created_at": NullableSerializer(Serialization._StringSerializer).serialize(value.createdAt),
-            "updated_at": NullableSerializer(Serialization._StringSerializer).serialize(value.updatedAt)
+            "updated_at": NullableSerializer(Serialization._StringSerializer).serialize(value.updatedAt),
+            "stargazers_url": NullableSerializer(Serialization._StringSerializer).serialize(value.stargazersURL)
         ]
         return .Dictionary(retVal)
     }
@@ -135,7 +138,8 @@ public class RepoSerializer: JSONSerializer {
                 let watchersCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["watchers_count"] ?? .Null)
                 let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .Null)
                 let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .Null)
-                return GithubRepo(id: id, owner: owner, name: name, fullName: fullName, description: description, isPrivate: isPrivate, isFork: isFork, url: url, htmlURL: htmlURL, cloneURL: cloneURL, collaboratorsURL: collaboratorsURL, commentsURL: commentsURL, homepage: homePage, language: language, forksCount: forskCount, stargazersCount: stargazersCount, watchersCount: watchersCount, createdAt: createdAt, updatedAt: updatedAt)
+                let stargazersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["stargazers_url"] ?? .Null)
+                return GithubRepo(id: id, owner: owner, name: name, fullName: fullName, description: description, isPrivate: isPrivate, isFork: isFork, url: url, htmlURL: htmlURL, cloneURL: cloneURL, collaboratorsURL: collaboratorsURL, commentsURL: commentsURL, homepage: homePage, language: language, forksCount: forskCount, stargazersCount: stargazersCount, watchersCount: watchersCount, createdAt: createdAt, updatedAt: updatedAt, stargazersURL: stargazersURL)
             default:
                 fatalError("GitHub Repo JSON Type Error")
         }

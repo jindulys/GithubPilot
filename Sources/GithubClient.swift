@@ -15,6 +15,7 @@ public class GithubClient: GithubNetWorkClient {
     public var users: UsersRoutes!
     public var repos: ReposRoutes!
     public var events: EventsRoutes!
+    public var stars: StarsRoutes!
     
     public override func additionalHeaders(needoauth: Bool) -> [String : String] {
         var headers: [String: String] = [:]
@@ -40,5 +41,6 @@ public class GithubClient: GithubNetWorkClient {
         self.users = UsersRoutes(client: self)
         self.repos = ReposRoutes(client: self)
         self.events = EventsRoutes(client: self)
+        self.stars = StarsRoutes(client: self)
     }
 }
