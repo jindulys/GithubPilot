@@ -20,6 +20,7 @@
 		0E5FB0231C7D38CD00F8F03D /* StarsRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */; };
 		0E5FB0241C7D38CD00F8F03D /* EventsRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */; };
 		0E5FB0251C7D38CD00F8F03D /* GithubEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB0211C7D38CD00F8F03D /* GithubEvent.swift */; };
+		0E5FB0271C7D5F5B00F8F03D /* ReposRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB0261C7D5F5B00F8F03D /* ReposRoutes.swift */; };
 		0E7E8B1E1C7C14A8003716B2 /* GithubPilotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278B81C78FAD300317F91 /* GithubPilotTests.swift */; };
 		0EB278AD1C78FAD300317F91 /* GithubPilot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB278AC1C78FAD300317F91 /* GithubPilot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EB278B41C78FAD300317F91 /* GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB278A91C78FAD300317F91 /* GithubPilot.framework */; };
@@ -61,6 +62,7 @@
 		0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsRoutes.swift; sourceTree = "<group>"; };
 		0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsRoutes.swift; sourceTree = "<group>"; };
 		0E5FB0211C7D38CD00F8F03D /* GithubEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubEvent.swift; sourceTree = "<group>"; };
+		0E5FB0261C7D5F5B00F8F03D /* ReposRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReposRoutes.swift; sourceTree = "<group>"; };
 		0EB278A91C78FAD300317F91 /* GithubPilot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GithubPilot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB278AC1C78FAD300317F91 /* GithubPilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GithubPilot.h; sourceTree = "<group>"; };
 		0EB278AE1C78FAD300317F91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -172,10 +174,6 @@
 		0EB278C31C78FDE700317F91 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */,
-				0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */,
-				0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */,
-				0E5FB0211C7D38CD00F8F03D /* GithubEvent.swift */,
 				0E29C2D61C7A3B6C00B1F306 /* Helpers */,
 				0EB278C41C78FDE700317F91 /* AuthenticationRoutes.swift */,
 				0EB278C51C78FDE700317F91 /* Constants.swift */,
@@ -186,6 +184,11 @@
 				0EB278CA1C78FDE700317F91 /* GithubUser.swift */,
 				0EB278CB1C78FDE700317F91 /* OAuth.swift */,
 				0EB278CC1C78FDE700317F91 /* UsersRoutes.swift */,
+				0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */,
+				0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */,
+				0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */,
+				0E5FB0211C7D38CD00F8F03D /* GithubEvent.swift */,
+				0E5FB0261C7D5F5B00F8F03D /* ReposRoutes.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */,
 				0EB278CE1C78FDE700317F91 /* Constants.swift in Sources */,
 				0E5FB0241C7D38CD00F8F03D /* EventsRoutes.swift in Sources */,
+				0E5FB0271C7D5F5B00F8F03D /* ReposRoutes.swift in Sources */,
 				0EB278D51C78FDE700317F91 /* UsersRoutes.swift in Sources */,
 				0EB278D31C78FDE700317F91 /* GithubUser.swift in Sources */,
 				0E5FB0221C7D38CD00F8F03D /* GithubRepo.swift in Sources */,
