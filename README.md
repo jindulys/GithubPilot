@@ -178,4 +178,4 @@ You could refer to one of my project [GitPocket](https://github.com/jindulys/Git
 
 # Future Work
 
-There all tons of other API I haven't implementated, like **Search**. I will continuely make this repo better. Welcome to pull request and open issues.
+There all tons of other API I haven't implementated, like **Search**. I will continuously make this repo better. Welcome to pull request and open issues.
