@@ -226,19 +226,23 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
 /// An "rpc-style" request
 public class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializer, T>: RpcRequest<RType, EType> {
     var httpResponseHandler: ((NSHTTPURLResponse?)->T?)?
+    // DefaultResponseQueue, set this if you want your response return to queue other than main queue.
+    var defaultResponseQueue: dispatch_queue_t?
     
     /**
      Designated Initializer
      
      - parameter customResponseHandler: custom handler to deal with HTTPURLResponse, usually you want to use this to extract info from Response's allHeaderFields.
+     - parameter defaultResponseQueue : The queue you want response block to be executed on.
      */
-    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, customResponseHandler:((NSHTTPURLResponse?)->T?)? = nil, responseSerializer: RType, errorSerializer: EType) {
+    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, customResponseHandler:((NSHTTPURLResponse?)->T?)? = nil, defaultResponseQueue: dispatch_queue_t? = nil, responseSerializer: RType, errorSerializer: EType) {
         httpResponseHandler = customResponseHandler
+        self.defaultResponseQueue = defaultResponseQueue
         super.init(client: client, host: host, route: route, method: method, params: params, postParams: postParams, postData: postData, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
     }
     
     public func response(complitionHandler:(T?, RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
-        self.request.validate().response {
+        self.request.validate().response(queue: defaultResponseQueue) {
             (request, response, data, error) -> Void in
             let d = data!
             let responseResult = self.httpResponseHandler?(response)

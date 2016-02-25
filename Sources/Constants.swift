@@ -17,4 +17,8 @@ public struct Constants {
     public struct AccessToken {
         public static let GithubAccessTokenStorageKey = "GithubAccessTokenStorageKey"
     }
+    
+    public struct ErrorInfo {
+        public static let GithubRequestOverTime = "Request Over Time"
+    }
 }

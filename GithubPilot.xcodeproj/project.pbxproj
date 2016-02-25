@@ -16,6 +16,7 @@
 		0E29C2CA1C7966F300B1F306 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2C91C7966F300B1F306 /* README.md */; };
 		0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2CB1C7967EF00B1F306 /* UserTests.swift */; };
 		0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */; };
+		0E5BDCAF1C7EB751005A577A /* StarGazersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */; };
 		0E5FB0221C7D38CD00F8F03D /* GithubRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */; };
 		0E5FB0231C7D38CD00F8F03D /* StarsRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */; };
 		0E5FB0241C7D38CD00F8F03D /* EventsRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */; };
@@ -58,6 +59,7 @@
 		0E29C2C91C7966F300B1F306 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0E29C2CB1C7967EF00B1F306 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Character+Extensions.swift"; path = "Helpers/Character+Extensions.swift"; sourceTree = "<group>"; };
+		0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarGazersTest.swift; sourceTree = "<group>"; };
 		0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubRepo.swift; sourceTree = "<group>"; };
 		0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsRoutes.swift; sourceTree = "<group>"; };
 		0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsRoutes.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				0EB278BA1C78FAD300317F91 /* Info.plist */,
 				0E29C2BD1C79577700B1F306 /* GithubPilotTests-Bridging-Header.h */,
 				0E29C2CB1C7967EF00B1F306 /* UserTests.swift */,
+				0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */,
 			);
 			path = GithubPilotTests;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */,
+				0E5BDCAF1C7EB751005A577A /* StarGazersTest.swift in Sources */,
 				0E7E8B1E1C7C14A8003716B2 /* GithubPilotTests.swift in Sources */,
 				0E29C2B11C7956B900B1F306 /* TestHelper.swift in Sources */,
 			);
