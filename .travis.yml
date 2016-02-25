@@ -9,5 +9,5 @@ before_install:
 
 script:
 - set -o pipefail
-- xctool -workspace GithubPilot.xcworkspace -scheme GithubPilot clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+- xctool -workspace GithubPilot.xcworkspace -scheme GithubPilot -destination "platform=iOS Simulator,name=iPhone 6" clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 - xctool test -workspace GithubPilot.xcworkspace -scheme GithubPilotTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
