@@ -9,6 +9,5 @@ end
 
 target 'GithubPilotTests' do
   pod 'Nocilla'
-  pod 'GithubPilot', '~>0.1.1'
 end
 
