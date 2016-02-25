@@ -1,7 +1,5 @@
-# GithubPilot
+# GithubPilot - Github API V3 Swifty Wrapper
 [![Build Status](https://travis-ci.org/jindulys/GithubPilot.svg)](https://travis-ci.org/jindulys/GithubPilot)
-
-Github API V3 Swifty Wrapper
 
 This is a Swift Github API Wrapper, it could make your life a little easier if you want to make an App with Github's wonderful data.
 
