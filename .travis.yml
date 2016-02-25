@@ -1,0 +1,8 @@
+language: objective-c
+osx_image: xcode7
+xcode_project: GithubPilot.xcworkspace
+xcode_scheme: GithubPilot
+SDK: iphonesimulator9.1
+script:
+- xctool -workspace GithubPilot.xcworkspace -scheme GithubPilot clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+- xctool test -workspace GithubPilot.xcworkspace -scheme GithubPilotTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
