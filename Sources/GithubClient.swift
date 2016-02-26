@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 
+/// Class used for all kinds of request, it manages all the routes.
 public class GithubClient: GithubNetWorkClient {
     let accessToken: String
     
@@ -17,6 +18,13 @@ public class GithubClient: GithubNetWorkClient {
     public var events: EventsRoutes!
     public var stars: StarsRoutes!
     
+    /**
+     Add additionalHeaders if you want.
+     
+     - parameter needoauth: need add accessToken to header.
+     
+     - returns: modified header.
+     */
     public override func additionalHeaders(needoauth: Bool) -> [String : String] {
         var headers: [String: String] = [:]
         if needoauth {
@@ -25,6 +33,13 @@ public class GithubClient: GithubNetWorkClient {
         return headers
     }
     
+    /**
+     Convenience Initializer
+     
+     - parameter accessToken: take an access token to initialize
+     
+     - returns: a client that takes charge of all kinds of API Request.
+     */
     public convenience init(accessToken: String) {
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = Alamofire.Manager.defaultHTTPHeaders

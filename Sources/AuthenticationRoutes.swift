@@ -10,11 +10,21 @@ import Foundation
 import UIKit
 import Alamofire
 
+/// A Simple Class Represent one Authentication Information
 class GithubAuthentication {
     let id: Int32
     let token: String
     let hashedToken: String
     
+    /**
+     Designated Initializer
+     
+     - parameter id:          id
+     - parameter token:       token, this is what we usually want to use.
+     - parameter hashedToken: hashedtoken
+     
+     - returns: an initialized instance
+     */
     init(id:Int32, token: String, hashedToken: String) {
         self.id = id
         self.token = token
@@ -22,6 +32,7 @@ class GithubAuthentication {
     }
 }
 
+/// Serializer used for Authentication
 class GithubAuthenticationSerializer: JSONSerializer {
     init() { }
     
@@ -63,12 +74,22 @@ enum AuthorizationError: CustomStringConvertible {
     }
 }
 
+/// Router used for Authentication purpose.
+
+/// This Router is different from other router since the response for this one is not a JSON Format, although we could change this behavior by set HTTP Header fields.
 class GithubAuthenticationRoutes {
     unowned let client: GithubNetWorkClient
     init(client: GithubNetWorkClient) {
         self.client = client
     }
     
+    /**
+     Request Authentication
+     
+     - parameter scopes:      scopes used by your client app
+     - parameter clientID:    clientID
+     - parameter redirectURI: redirectURI should be a unique scheme that your application could deal with.
+     */
     func requestAuthentication(scopes:[String], clientID: String, redirectURI: String) {
         guard let login = self.client.baseHosts["login"] else { return }
         let path = "/login/oauth/authorize"
@@ -82,6 +103,14 @@ class GithubAuthenticationRoutes {
     }
     
     // TODO: deal with error, might be create error ENUM for authentication
+    /**
+    Request to access Token
+    
+    - parameter clientID:          ClientID, required
+    - parameter clientSecret:      ClientSecret, required
+    - parameter code:              the code you get from authentication
+    - parameter complitionHandler: complitionHandler will return a string contains access_token, or an Error 
+    */
     func requestAccessToken(clientID: String, clientSecret: String, code: String, complitionHandler: (String?, AuthorizationError?)->Void) {
         let url = "\(self.client.baseHosts["login"]!)/login/oauth/access_token"
         let accessTokenRequest = "client_id=\(clientID)&client_secret=\(clientSecret)&code=\(code)"
