@@ -13,7 +13,6 @@
 		0E29C2BA1C7956C500B1F306 /* user_mietzmithut.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B51C7956C500B1F306 /* user_mietzmithut.json */; };
 		0E29C2BB1C7956C500B1F306 /* user_repos.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B61C7956C500B1F306 /* user_repos.json */; };
 		0E29C2BC1C7956C500B1F306 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B71C7956C500B1F306 /* users.json */; };
-		0E29C2CA1C7966F300B1F306 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2C91C7966F300B1F306 /* README.md */; };
 		0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2CB1C7967EF00B1F306 /* UserTests.swift */; };
 		0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */; };
 		0E5BDCAF1C7EB751005A577A /* StarGazersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */; };
@@ -414,7 +413,6 @@
 			files = (
 				0EB278CF1C78FDE700317F91 /* Github.swift in Sources */,
 				0EB278CD1C78FDE700317F91 /* AuthenticationRoutes.swift in Sources */,
-				0E29C2CA1C7966F300B1F306 /* README.md in Sources */,
 				0EB278D21C78FDE700317F91 /* GithubSerializers.swift in Sources */,
 				0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */,
 				0EB278CE1C78FDE700317F91 /* Constants.swift in Sources */,
@@ -583,11 +581,6 @@
 			baseConfigurationReference = AF90D8B545C800FFC5CFABA8 /* Pods-GithubPilotTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Private/Nocilla\"",
-					"\"${PODS_ROOT}/Headers/Private\"",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;
@@ -602,11 +595,6 @@
 			baseConfigurationReference = E5AF0748122EBB946C94F012 /* Pods-GithubPilotTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers/Private/Nocilla\"",
-					"\"${PODS_ROOT}/Headers/Private\"",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = GithubPilotTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yansong.GithubPilotTests;

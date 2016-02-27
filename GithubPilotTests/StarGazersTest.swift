@@ -59,7 +59,7 @@ class StarGazersTests: XCTestCase {
         let expectation = expectationWithDescription("StarGazerCount")
         testStarsRoutes.getAllStargazersFor(repo: "HackerRankSolutions", owner: username) {
             result, error in
-            if let error = error {
+            if let _ = error {
                 XCTAssert(false, "Failed Test")
                 expectation.fulfill()
             } else {
