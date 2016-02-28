@@ -64,7 +64,7 @@ public class StarsRoutes {
      - parameter owner:             owner's name.
      - parameter complitionHandler: callback that call on main thread.
      */
-    public func getAllStargazersFor(repo repo: String, owner: String, complitionHandler:([GithubUser]?, String?)-> Void) {
+    private func getAllStargazersOldFor(repo repo: String, owner: String, complitionHandler:([GithubUser]?, String?)-> Void) {
         dispatch_async(self.longTimeWaitQueue) { () -> Void in
             let privateQueue = dispatch_queue_create("com.githubpilot.stargazersRoutes.responseQueue", DISPATCH_QUEUE_SERIAL)
             var retVal: [GithubUser] = []
@@ -103,5 +103,38 @@ public class StarsRoutes {
                 complitionHandler(retVal, retError)
             })
         }
+    }
+    
+    /**
+     Get all the stargazers belong to a owner's repo.
+     
+     - note: This request is time consuming if this repo is a quite popular one. but it will run on a private serial queue and will not block main queue.
+     
+     - parameter repo:              repo's name.
+     - parameter owner:             owner's name.
+     - parameter complitionHandler: callback that call on main thread.
+     */
+    public func getAllStargazersFor(repo repo: String, owner: String, complitionHandler:([GithubUser]?, String?)-> Void) {
+        var recursiveStargazers: (String, String, String) -> Void = {_, _, _ in }
+        var retVal: [GithubUser] = []
+        recursiveStargazers = {
+            repo, owner, page in
+            self.getStargazersFor(repo: repo, owner: owner, page: page).response {
+                (nextPage, result, error) -> Void in
+                guard let users = result, vpage = nextPage else {
+                    complitionHandler(nil, error?.description ?? "Error,Could not finish this request")
+                    return
+                }
+
+                retVal.appendContentsOf(users)
+                if vpage == "1" {
+                    complitionHandler(retVal, nil)
+                } else {
+                    recursiveStargazers(repo, owner, vpage)
+                }
+            }
+        }
+        
+        recursiveStargazers(repo, owner, "1")
     }
 }
