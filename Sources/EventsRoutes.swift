@@ -24,7 +24,9 @@ public class EventsRoutes {
      - returns: an RpcRequest, whose response result contains `[GithubEvent]`, if pagination is applicable, response result contains `nextpage`.
      */
     public func getReceivedEventsForUser(name: String, page: String = "1") -> RpcCustomResponseRequest<EventArraySerializer, StringSerializer, String> {
-        precondition(name.characters.count != 0, "Invalid Input")
+        if name.characters.count == 0 {
+            print(Constants.ErrorInfo.InvalidInput.rawValue)
+        }
         
         let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
             if let nonNilResponse = response,

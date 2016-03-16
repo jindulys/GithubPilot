@@ -18,7 +18,9 @@ public struct Constants {
         public static let GithubAccessTokenStorageKey = "GithubAccessTokenStorageKey"
     }
     
-    public struct ErrorInfo {
-        public static let GithubRequestOverTime = "Request Over Time"
+    public enum ErrorInfo: String {
+        case RequestOverTime = "GithubPilot Request Over Time"
+        case InvalidInput = "GithubPilot Invalid Input"
+        case InvalidOperation = "GithubPilot Invalid Call Order"
     }
 }
