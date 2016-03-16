@@ -28,7 +28,9 @@ public class StarsRoutes {
      - returns: an RpcRequest, whose response result contains `[GithubUser]`, if pagination is applicable, response result contains `nextpage`.
      */
     public func getStargazersFor(repo repo: String, owner: String, page: String = "1", defaultResponseQueue: dispatch_queue_t? = nil) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
-        precondition((repo.characters.count != 0 && owner.characters.count != 0), "Invalid Input")
+        if repo.characters.count == 0 || owner.characters.count == 0 {
+            print("Repo name and Owner name must not be empty")
+        }
         
         let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
             if let nonNilResponse = response,
@@ -97,7 +99,7 @@ public class StarsRoutes {
             recursiveStargazers(repo, owner, "1", privateQueue)
             let timeoutTime = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * NSEC_PER_SEC))
             if dispatch_semaphore_wait(semaphore, timeoutTime) != 0 {
-                retError = Constants.ErrorInfo.GithubRequestOverTime
+                retError = Constants.ErrorInfo.RequestOverTime.rawValue
             }
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 complitionHandler(retVal, retError)

@@ -24,16 +24,22 @@ public class Github {
      - parameter redirectURI:  unique URL that your client could deal with.
      */
     public static func setupClientID(clientID: String, clientSecret: String, scope:[String], redirectURI: String) {
-        precondition(GithubAuthManager.sharedAuthManager == nil, "Only call `Github.setupClientID` once")
+        if GithubAuthManager.sharedAuthManager != nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Only call `Github.setupClientID` once")
+        }
         GithubAuthManager.sharedAuthManager = GithubAuthManager(clientID: clientID, clientSecret: clientSecret, scope: scope, redirectURI: redirectURI)
-        GithubManager.sharedManager = GithubManager()
+        
+        // Call `sharedManager` once, to create this singleton.
+        GithubManager.sharedManager
     }
     
     /**
      Authenticate this client, should be called after `setupClientID(_, clientSecret:,scope:,redirectURI:)`
      */
     public static func authenticate() {
-        precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before this method")
+        if GithubAuthManager.sharedAuthManager == nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Call `Github.setupClientID` before this method")
+        }
         GithubAuthManager.sharedAuthManager.authenticate()
     }
     
@@ -43,7 +49,10 @@ public class Github {
      - parameter url: url returned by Authentication Server, this usually should be called from `application(_, openURL:,sourceApplication:,annotation)`
      */
     public static func requestAccessToken(url: NSURL) {
-        precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before this method")
+        if GithubAuthManager.sharedAuthManager == nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Call `Github.setupClientID` before this method")
+        }
+
         GithubAuthManager.sharedAuthManager.requestAccessToken(url)
     }
     
@@ -51,7 +60,10 @@ public class Github {
      Unlink this app.
      */
     public static func unlink() {
-        precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before this method")
+        if GithubAuthManager.sharedAuthManager == nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Call `Github.setupClientID` before this method")
+        }
+        
         if Github.authorizedClient == nil {
             return
         }
@@ -63,17 +75,22 @@ public class Github {
 
 /// Object used for monitor Notification
 class GithubManager: NSObject {
-    static var sharedManager: GithubManager!
+    static let sharedManager = GithubManager()
     
-    override init() {
+    private override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"receivedGithubAccessToken", name: Constants.NotificationKey.GithubAccessTokenRequestSuccess, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "receivedGithubAccessTokenFailure", name: Constants.NotificationKey.GithubAccessTokenRequestFailure, object: nil)
     }
     
     func receivedGithubAccessToken() {
-        precondition(GithubAuthManager.sharedAuthManager != nil, "Call `Github.setupClientID` before calling this method")
-        precondition(Github.authorizedClient == nil, "Client has already been authorized")
+        if GithubAuthManager.sharedAuthManager == nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Call `Github.setupClientID` before this method")
+        }
+        
+        if Github.authorizedClient != nil {
+            print(Constants.ErrorInfo.InvalidOperation.rawValue + "Client has already been authorized")
+        }
         
         if let accessToken = GithubAuthManager.sharedAuthManager.accessToken {
             Github.authorizedClient = GithubClient(accessToken: accessToken)

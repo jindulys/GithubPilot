@@ -11,25 +11,10 @@ import UIKit
 import Alamofire
 
 /// A Simple Class Represent one Authentication Information
-class GithubAuthentication {
+struct GithubAuthentication {
     let id: Int32
     let token: String
     let hashedToken: String
-    
-    /**
-     Designated Initializer
-     
-     - parameter id:          id
-     - parameter token:       token, this is what we usually want to use.
-     - parameter hashedToken: hashedtoken
-     
-     - returns: an initialized instance
-     */
-    init(id:Int32, token: String, hashedToken: String) {
-        self.id = id
-        self.token = token
-        self.hashedToken = hashedToken
-    }
 }
 
 /// Serializer used for Authentication

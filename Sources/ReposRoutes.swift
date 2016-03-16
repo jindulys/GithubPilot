@@ -32,7 +32,10 @@ public class ReposRoutes {
      - returns: an RpcRequest, whose response result contain `GithubRepo`.
      */
     public func getRepo(name: String, owner: String) -> RpcRequest<RepoSerializer, StringSerializer> {
-        precondition((name.characters.count != 0 && owner.characters.count != 0), "Invalid Input")
+        if name.characters.count == 0 || owner.characters.count == 0 {
+            print(Constants.ErrorInfo.InvalidInput.rawValue)
+        }
+        
         return RpcRequest(client: self.client, host: "api", route: "/repos/\(owner)/\(name)", method: .GET, responseSerializer: RepoSerializer(), errorSerializer: StringSerializer())
     }
     
@@ -47,7 +50,9 @@ public class ReposRoutes {
      - note: Note that page numbering is 1-based and that omitting the ?page parameter will return the first page.
      */
     public func getRepoFrom(owner owner: String, page: String = "1") -> RpcCustomResponseRequest<RepoArraySerializer, StringSerializer, String> {
-        precondition(owner.characters.count != 0, "Invalid Input")
+        if owner.characters.count == 0 {
+            print(Constants.ErrorInfo.InvalidInput.rawValue)
+        }
         
         let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
             if let nonNilResponse = response,
@@ -76,7 +81,10 @@ public class ReposRoutes {
     
     
     public func getAPIRepo(url url: String) -> DirectAPIRequest<RepoSerializer, StringSerializer> {
-        precondition(url.characters.count != 0, "Could not accept void input")
+        if url.characters.count == 0 {
+            print(Constants.ErrorInfo.InvalidInput.rawValue)
+        }
+        
         return DirectAPIRequest(client: self.client, apiURL: url, method: .GET, responseSerializer: RepoSerializer(), errorSerializer: StringSerializer())
     }
 }
