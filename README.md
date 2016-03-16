@@ -10,7 +10,7 @@ This is a Swift Github API Wrapper, it could make your life a little easier if y
 Add a `Podfile` to your project, then edit it by adding:
 
     use_frameworks!
-    pod 'GithubPilot', '~>1.0.0'
+    pod 'GithubPilot', '~>1.0.2'
 
 then, run the following command:
 
