@@ -122,6 +122,9 @@ public class EventSerializer: JSONSerializer {
         self.repoSerializer = RepoSerializer()
     }
     
+    /**
+     GithubEvent -> JSON
+     */
     public func serialize(value: GithubEvent) -> JSON {
         let retVal = [
             "id": Serialization._StringSerializer.serialize(value.id),
@@ -133,6 +136,9 @@ public class EventSerializer: JSONSerializer {
         return .Dictionary(retVal)
     }
     
+    /**
+     JSON -> GithubEvent
+     */
     public func deserialize(json: JSON) -> GithubEvent {
         switch json {
             case .Dictionary(let dict):
@@ -148,17 +154,24 @@ public class EventSerializer: JSONSerializer {
     }
 }
 
+/// Event Array Serializer, which deal with array.
 public class EventArraySerializer: JSONSerializer {
     let eventSerializer: EventSerializer
     init() {
         self.eventSerializer = EventSerializer()
     }
     
+    /**
+     [GithubEvent] -> JSON
+     */
     public func serialize(value: [GithubEvent]) -> JSON {
         let users = value.map { self.eventSerializer.serialize($0) }
         return .Array(users)
     }
     
+    /**
+     JSON -> [GithubEvent]
+     */
     public func deserialize(json: JSON) -> [GithubEvent] {
         switch json {
         case .Array(let users):

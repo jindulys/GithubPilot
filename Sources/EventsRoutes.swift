@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Routes responsible for Events related request.
 public class EventsRoutes {
     public unowned let client: GithubNetWorkClient
     

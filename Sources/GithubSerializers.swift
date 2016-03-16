@@ -8,6 +8,15 @@
 
 import Foundation
 
+/**
+ JSON Enum
+ 
+ - Array:      array JSON
+ - Dictionary: dictionary JSON
+ - Str:        string JSON
+ - Number:     number JSON
+ - Null:       null JSON
+ */
 public enum JSON {
     case Array([JSON])
     case Dictionary([String: JSON])
@@ -46,6 +55,13 @@ public func ==(lhs: JSON, rhs: JSON) -> Bool {
     }
 }
 
+/**
+ Convert an object to JSON
+ 
+ - parameter json: an arbitrary object
+ 
+ - returns: corresponding JSON object.
+ */
 func objectToJSON(json: AnyObject) -> JSON {
     switch json {
         case _ as NSNull:
@@ -68,6 +84,13 @@ func objectToJSON(json: AnyObject) -> JSON {
     }
 }
 
+/**
+ Convert JSON to object.
+ 
+ - parameter json: JSON object to be converted.
+ 
+ - returns: converted object.
+ */
 func prepareJSONForSerialization(json: JSON) -> AnyObject {
     switch json {
         case .Null:
@@ -93,6 +116,13 @@ func prepareJSONForSerialization(json: JSON) -> AnyObject {
     }
 }
 
+/**
+ Convert JSON to Data
+ 
+ - parameter json: JSON object
+ 
+ - returns: converted Data
+ */
 func dumpJSON(json: JSON) -> NSData? {
     switch json {
         case .Null:
@@ -107,22 +137,40 @@ func dumpJSON(json: JSON) -> NSData? {
     }
 }
 
+
+/**
+ Convert NSData to JSON
+ 
+ - parameter data: NSData object
+ 
+ - returns: JSON object
+ */
 func parseJSON(data: NSData) -> JSON {
     let obj: AnyObject = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
     return objectToJSON(obj)
 }
 
+/**
+ *  Protocol to Serialize ValueType to JSON, and deserialize JSON to ValueType.
+ */
 public protocol JSONSerializer {
     typealias ValueType
     func serialize(_: ValueType) -> JSON
     func deserialize(_: JSON) -> ValueType
 }
 
+/// VoidSerializer
 public class VoidSerializer: JSONSerializer {
+    /**
+     nil -> .Null
+     */
     public func serialize(value: Void) -> JSON {
         return .Null
     }
     
+    /**
+     .Null -> nil
+     */
     public func deserialize(json: JSON) -> Void {
         switch json {
             case .Null:
@@ -133,12 +181,20 @@ public class VoidSerializer: JSONSerializer {
     }
 }
 
+/// StringSerializer
 public class StringSerializer: JSONSerializer {
     init() { }
+    
+    /**
+     String -> .Str
+     */
     public func serialize(str: String) -> JSON {
         return .Str(str)
     }
     
+    /**
+     .Str -> String
+     */
     public func deserialize(json: JSON) -> String {
         switch json {
             case .Str(let str):
@@ -149,7 +205,9 @@ public class StringSerializer: JSONSerializer {
     }
 }
 
+/// ArraySerializer
 public class ArraySerializer<T: JSONSerializer>: JSONSerializer {
+    /// ElementSerializer used by element stored in Array.
     var elementSerializer: T
     
     init(_ elementSerializer: T) {
@@ -170,6 +228,7 @@ public class ArraySerializer<T: JSONSerializer>: JSONSerializer {
     }
 }
 
+/// BollSerializer
 public class BoolSerializer: JSONSerializer {
     public func serialize(value: Bool) -> JSON {
         return .Number(NSNumber(bool: value))
@@ -185,6 +244,7 @@ public class BoolSerializer: JSONSerializer {
     }
 }
 
+/// UInt64Serializer
 public class UInt64Serializer : JSONSerializer {
     public func serialize(value : UInt64) -> JSON {
         return .Number(NSNumber(unsignedLongLong: value))
@@ -200,6 +260,7 @@ public class UInt64Serializer : JSONSerializer {
     }
 }
 
+/// Int64Serializer
 public class Int64Serializer : JSONSerializer {
     public func serialize(value : Int64) -> JSON {
         return .Number(NSNumber(longLong: value))
@@ -215,6 +276,7 @@ public class Int64Serializer : JSONSerializer {
     }
 }
 
+/// Int32Serializer
 public class Int32Serializer : JSONSerializer {
     public func serialize(value : Int32) -> JSON {
         return .Number(NSNumber(int: value))
@@ -229,6 +291,8 @@ public class Int32Serializer : JSONSerializer {
         }
     }
 }
+
+/// UInt32Serializer
 public class UInt32Serializer : JSONSerializer {
     public func serialize(value : UInt32) -> JSON {
         return .Number(NSNumber(unsignedInt: value))
@@ -244,6 +308,7 @@ public class UInt32Serializer : JSONSerializer {
     }
 }
 
+/// NSDataSerializer
 public class NSDataSerializer : JSONSerializer {
     public func serialize(value : NSData) -> JSON {
         return .Str(value.base64EncodedStringWithOptions([]))
@@ -259,6 +324,7 @@ public class NSDataSerializer : JSONSerializer {
     }
 }
 
+/// DoubleSerializer
 public class DoubleSerializer : JSONSerializer {
     public func serialize(value: Double) -> JSON {
         return .Number(NSNumber(double: value))
@@ -274,7 +340,9 @@ public class DoubleSerializer : JSONSerializer {
     }
 }
 
+/// NullableSerializer, which the object to be converted to JSON could be `nil`.
 public class NullableSerializer<T: JSONSerializer> {
+    /// ValueSerializer to be used by non-nil value.
     let valueSerializer: T
     init(_ valueSerializer:T) {
         self.valueSerializer = valueSerializer
@@ -298,6 +366,9 @@ public class NullableSerializer<T: JSONSerializer> {
     }
 }
 
+/**
+ *  Struct to hold common used Serializers.
+ */
 struct Serialization {
     static var _StringSerializer = StringSerializer()
     static var _BoolSerializer = BoolSerializer()

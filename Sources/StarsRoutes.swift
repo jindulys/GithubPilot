@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Routes for Stars related request.
 public class StarsRoutes {
     public unowned let client: GithubNetWorkClient
     // This queue is used for some long time task to stay around, espicially pagination operation.

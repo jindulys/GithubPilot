@@ -83,6 +83,9 @@ class GithubManager: NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "receivedGithubAccessTokenFailure", name: Constants.NotificationKey.GithubAccessTokenRequestFailure, object: nil)
     }
     
+    /**
+     Get called when get AccessToken.
+     */
     func receivedGithubAccessToken() {
         if GithubAuthManager.sharedAuthManager == nil {
             print(Constants.ErrorInfo.InvalidOperation.rawValue + "Call `Github.setupClientID` before this method")
@@ -103,6 +106,9 @@ class GithubManager: NSObject {
         }
     }
     
+    /**
+     Getting AccessToken Failed.
+     */
     func receivedGithubAccessTokenFailure() {
         // TODO: save the error to display to the user
         print("Failed to get access token")

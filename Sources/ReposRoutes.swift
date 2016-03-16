@@ -79,7 +79,13 @@ public class ReposRoutes {
         return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(owner)/repos", method: .GET, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: RepoArraySerializer(), errorSerializer: StringSerializer())
     }
     
-    
+    /**
+     Use API URL to get the full information of Repo
+     
+     - parameter url: api URL
+     
+     - returns: Request Object you could get the full information from its successful serializer.
+     */
     public func getAPIRepo(url url: String) -> DirectAPIRequest<RepoSerializer, StringSerializer> {
         if url.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)

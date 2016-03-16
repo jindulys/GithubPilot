@@ -112,6 +112,7 @@ extension GithubUser: CustomStringConvertible {
     }
 }
 
+/// GithubUserSerializer
 public class GithubUserSerializer: JSONSerializer {
     public init() {}
     public func serialize(value: GithubUser) -> JSON {
@@ -188,17 +189,24 @@ public class GithubUserSerializer: JSONSerializer {
     }
 }
 
+/// UserArraySerializer
 public class UserArraySerializer: JSONSerializer {
     let userSerializer: GithubUserSerializer
     init() {
         self.userSerializer = GithubUserSerializer()
     }
     
+    /**
+     [GithubUser] -> JSON
+     */
     public func serialize(value: [GithubUser]) -> JSON {
         let users = value.map { self.userSerializer.serialize($0) }
         return .Array(users)
     }
     
+    /**
+     JSON -> [GithubUser]
+     */
     public func deserialize(json: JSON) -> [GithubUser] {
         switch json {
         case .Array(let users):

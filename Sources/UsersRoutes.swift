@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Routes for User related Request.
 public class UsersRoutes {
     public unowned let client: GithubNetWorkClient
     init(client: GithubNetWorkClient) {

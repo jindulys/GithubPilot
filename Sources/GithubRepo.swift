@@ -85,11 +85,17 @@ public class GithubRepo {
     }
 }
 
+/// RepoSerializer
 public class RepoSerializer: JSONSerializer {
     let userSerializer: GithubUserSerializer
+    
     public init() {
         self.userSerializer = GithubUserSerializer()
     }
+    
+    /**
+     GithubRepo -> JSON
+     */
     public func serialize(value: GithubRepo) -> JSON {
         let retVal = [
             "id": Serialization._Int32Serializer.serialize(value.id),
@@ -116,6 +122,9 @@ public class RepoSerializer: JSONSerializer {
         return .Dictionary(retVal)
     }
     
+    /**
+     JSON -> GithubRepo
+     */
     public func deserialize(json: JSON) -> GithubRepo {
         switch json {
             case .Dictionary(let dict):
@@ -146,17 +155,24 @@ public class RepoSerializer: JSONSerializer {
     }
 }
 
+/// RepoArraySerializer
 public class RepoArraySerializer: JSONSerializer {
     let repoSerializer: RepoSerializer
     init() {
         self.repoSerializer = RepoSerializer()
     }
     
+    /**
+     [GithubRepo] -> JSON
+     */
     public func serialize(value: [GithubRepo]) -> JSON {
         let users = value.map { self.repoSerializer.serialize($0) }
         return .Array(users)
     }
     
+    /**
+     JSON -> [GithubRepo]
+     */
     public func deserialize(json: JSON) -> [GithubRepo] {
         switch json {
         case .Array(let users):

@@ -139,6 +139,13 @@ public class DirectAPIRequest<RType: JSONSerializer, EType: JSONSerializer>: Git
         request.resume()
     }
     
+    /**
+     Response function for DirectAPIRequest.
+     
+     - parameter complitionHandler: complitionHandler.
+     
+     - returns: self.
+     */
     public func response(complitionHandler:(RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
         self.request.validate().response {
             (request, response, data, error) -> Void in
@@ -209,6 +216,13 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
         request.resume()
     }
     
+    /**
+     Response function for RpcRequest.
+     
+     - parameter complitionHandler: complitionHandler.
+     
+     - returns: self.
+     */
     public func response(complitionHandler:(RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
         self.request.validate().response {
             (request, response, data, error) -> Void in
@@ -223,7 +237,7 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
     }
 }
 
-/// An "rpc-style" request
+/// An "rpc-style" request, which has a `httpResponseHandler` that could do some custom operation with HTTPResponse Header.
 public class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializer, T>: RpcRequest<RType, EType> {
     var httpResponseHandler: ((NSHTTPURLResponse?)->T?)?
     // DefaultResponseQueue, set this if you want your response return to queue other than main queue.
@@ -241,6 +255,13 @@ public class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializ
         super.init(client: client, host: host, route: route, method: method, params: params, postParams: postParams, postData: postData, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
     }
     
+    /**
+     Response function for RpcCustomResponseRequest.
+     
+     - parameter complitionHandler: complitionHandler.
+     
+     - returns: self.
+     */
     public func response(complitionHandler:(T?, RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
         self.request.validate().response(queue: defaultResponseQueue) {
             (request, response, data, error) -> Void in

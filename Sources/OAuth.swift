@@ -9,11 +9,18 @@
 import Foundation
 import Alamofire
 
+/**
+ GithubAuthResult Enum
+ 
+ - Success: Success
+ - Error:   Error
+ */
 public enum GithubAuthResult {
     case Success(String)
     case Error(String)
 }
 
+/// GithubAuthManager
 public class GithubAuthManager {
     let clientID: String
     let clientSecret: String
@@ -58,6 +65,11 @@ public class GithubAuthManager {
         }
     }
     
+    /**
+     Request AccessToken
+     
+     - parameter url: url with `code` value, got from Authentication Step.
+     */
     public func requestAccessToken(url: NSURL) {
         guard let code = url.query?.componentsSeparatedByString("code=").last else { return }
         self.oAuthRouter.requestAccessToken(self.clientID, clientSecret: self.clientSecret, code: code) { (tokenString, requestError) -> Void in
@@ -94,11 +106,18 @@ public class GithubAuthManager {
         }
     }
     
+    /**
+     Clear AccessToken.
+     */
     public func clearStoredAccessToken() {
         DefaultStorage.clear(key: Constants.AccessToken.GithubAccessTokenStorageKey)
     }
 }
 
+
+/**
+ *  Protocol for PersistentStorage
+ */
 protocol PersistentStorage {
     typealias valueType
     typealias keyType
@@ -110,12 +129,24 @@ protocol PersistentStorage {
 
 /// DefaultStorage use NSDefault to save information
 class DefaultStorage: PersistentStorage  {
-    
+    /**
+     Save info with key to UserDefaults
+     
+     - parameter info: info to be saved.
+     - parameter key:  key.
+     */
     class func save(info: AnyObject, withKey key: String) -> Void {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(info, forKey: key)
     }
     
+    /**
+     Get info for a key from UserDefaults
+     
+     - parameter key: key
+     
+     - returns: related value or nil.
+     */
     class func get(key key: String) -> AnyObject? {
         let defaults = NSUserDefaults.standardUserDefaults()
         if let value = defaults.objectForKey(key) {
@@ -124,6 +155,11 @@ class DefaultStorage: PersistentStorage  {
         return nil
     }
     
+    /**
+     Remove one key from UserDefaults
+     
+     - parameter key: key to be cleaned.
+     */
     class func clear(key key: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.removeObjectForKey(key)
