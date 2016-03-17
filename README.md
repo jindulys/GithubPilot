@@ -46,7 +46,7 @@ Open your Xcode then open **Info.plist** of your project. copy and paste followi
 # Usage
 
 ## Authentication
-First, add `import GithubPilot` at the top of your **AppDelegatet**. You could then add `application(_: didFinishLaunchingWithOptions:)` with following to authenticate your client. You also should take care of `scope` parameter that your client will use, refer to [Github Scope](https://developer.github.com/v3/oauth/#scopes)
+First, add `import GithubPilot` at the top of your **AppDelegate**. You could then add `application(_: didFinishLaunchingWithOptions:)` with following to authenticate your client. You also should take care of `scope` parameter that your client will use, refer to [Github Scope](https://developer.github.com/v3/oauth/#scopes)
 
     Github.setupClientID("YourClientID", clientSecret: "YourClientSecret", scope: ["user", "repo"], redirectURI: "YourCustomCallBackURL")
     Github.authenticate()
