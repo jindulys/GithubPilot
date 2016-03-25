@@ -15,6 +15,9 @@
 		0E29C2BC1C7956C500B1F306 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E29C2B71C7956C500B1F306 /* users.json */; };
 		0E29C2CC1C7967EF00B1F306 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2CB1C7967EF00B1F306 /* UserTests.swift */; };
 		0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */; };
+		0E5126D41CA5E22200693AFF /* SearchRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5126D31CA5E22200693AFF /* SearchRoutes.swift */; };
+		0E5126D71CA5E23700693AFF /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5126D51CA5E23700693AFF /* Helper.swift */; };
+		0E5126D81CA5E23700693AFF /* Dictionray+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5126D61CA5E23700693AFF /* Dictionray+Extensions.swift */; };
 		0E5BDCAF1C7EB751005A577A /* StarGazersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */; };
 		0E5FB0221C7D38CD00F8F03D /* GithubRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */; };
 		0E5FB0231C7D38CD00F8F03D /* StarsRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */; };
@@ -58,6 +61,9 @@
 		0E29C2C91C7966F300B1F306 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0E29C2CB1C7967EF00B1F306 /* UserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Character+Extensions.swift"; path = "Helpers/Character+Extensions.swift"; sourceTree = "<group>"; };
+		0E5126D31CA5E22200693AFF /* SearchRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRoutes.swift; sourceTree = "<group>"; };
+		0E5126D51CA5E23700693AFF /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = Helpers/Helper.swift; sourceTree = "<group>"; };
+		0E5126D61CA5E23700693AFF /* Dictionray+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Dictionray+Extensions.swift"; path = "Helpers/Dictionray+Extensions.swift"; sourceTree = "<group>"; };
 		0E5BDCAE1C7EB751005A577A /* StarGazersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarGazersTest.swift; sourceTree = "<group>"; };
 		0E5FB01E1C7D38CD00F8F03D /* GithubRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubRepo.swift; sourceTree = "<group>"; };
 		0E5FB01F1C7D38CD00F8F03D /* StarsRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsRoutes.swift; sourceTree = "<group>"; };
@@ -123,6 +129,8 @@
 		0E29C2D61C7A3B6C00B1F306 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0E5126D51CA5E23700693AFF /* Helper.swift */,
+				0E5126D61CA5E23700693AFF /* Dictionray+Extensions.swift */,
 				0E29C2D71C7A3B8E00B1F306 /* Character+Extensions.swift */,
 			);
 			name = Helpers;
@@ -191,6 +199,7 @@
 				0E5FB0201C7D38CD00F8F03D /* EventsRoutes.swift */,
 				0E5FB0211C7D38CD00F8F03D /* GithubEvent.swift */,
 				0E5FB0261C7D5F5B00F8F03D /* ReposRoutes.swift */,
+				0E5126D31CA5E22200693AFF /* SearchRoutes.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -416,12 +425,15 @@
 				0EB278D21C78FDE700317F91 /* GithubSerializers.swift in Sources */,
 				0E29C2D81C7A3B8E00B1F306 /* Character+Extensions.swift in Sources */,
 				0EB278CE1C78FDE700317F91 /* Constants.swift in Sources */,
+				0E5126D41CA5E22200693AFF /* SearchRoutes.swift in Sources */,
 				0E5FB0241C7D38CD00F8F03D /* EventsRoutes.swift in Sources */,
 				0E5FB0271C7D5F5B00F8F03D /* ReposRoutes.swift in Sources */,
+				0E5126D71CA5E23700693AFF /* Helper.swift in Sources */,
 				0EB278D51C78FDE700317F91 /* UsersRoutes.swift in Sources */,
 				0EB278D31C78FDE700317F91 /* GithubUser.swift in Sources */,
 				0E5FB0221C7D38CD00F8F03D /* GithubRepo.swift in Sources */,
 				0E5FB0251C7D38CD00F8F03D /* GithubEvent.swift in Sources */,
+				0E5126D81CA5E23700693AFF /* Dictionray+Extensions.swift in Sources */,
 				0EB278D01C78FDE700317F91 /* GithubClient.swift in Sources */,
 				0EB278D11C78FDE700317F91 /* GithubRequest.swift in Sources */,
 				0EB278D41C78FDE700317F91 /* OAuth.swift in Sources */,
