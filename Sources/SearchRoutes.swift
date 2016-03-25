@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 
 /**
@@ -25,7 +26,7 @@ public enum GitHubSearchCondition: String {
     case Forks = "forks"
     case Created = "created"
     case Pushed = "pushed"
-    case Stars = "Stars"
+    case Stars = "stars"
     
     // Sepecific for Search Code
     case Extension = "extension"
@@ -35,7 +36,7 @@ public enum GitHubSearchCondition: String {
     // Sepecific for Search Users
     case Type = "type"
     case Repos = "repos"
-    case Location = "Location"
+    case Location = "location"
     case Followers = "followers"
 }
 
@@ -145,6 +146,28 @@ public class GithubSearchRepoRoutes {
             params: ["q":topicQuery, "sort": sort.rawValue, "order": order.rawValue, "page":page],
             postParams: nil,
             postData: nil,
+            encoding: ParameterEncoding.Custom({ (convertible, params) -> (NSMutableURLRequest, NSError?) in
+                func query(parameters: [String: String]) -> String {
+                    var components: [(String, String)] = []
+                    
+                    for key in parameters.keys.sort(<) {
+                        let value = parameters[key]!
+                        components += githubSearchQueryComponents(key, value)
+                    }
+                    
+                    return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
+                }
+                
+                let mutableURLRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
+                if let
+                    URLComponents = NSURLComponents(URL: mutableURLRequest.URL!, resolvingAgainstBaseURL: false), validParams = params as? [String: String]
+                {
+                    let percentEncodedQuery = (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(validParams)
+                    URLComponents.percentEncodedQuery = percentEncodedQuery
+                    mutableURLRequest.URL = URLComponents.URL
+                }
+                return (mutableURLRequest, nil)
+            }),
             customResponseHandler: httpResponseHandler,
             responseSerializer: SearchResultSerializer(),
             errorSerializer: StringSerializer())

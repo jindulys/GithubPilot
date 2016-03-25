@@ -177,7 +177,7 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
      
      - returns: an initialized RpcRequest.
      */
-    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, responseSerializer: RType, errorSerializer: EType) {
+    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, encoding: ParameterEncoding = .URL, responseSerializer: RType, errorSerializer: EType) {
         let url = "\(client.baseHosts[host]!)\(route)"
         var headers = ["Content-Type": "application/json"]
         let needOauth = (host == "api")
@@ -188,7 +188,7 @@ public class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReq
         var request: Alamofire.Request
         switch method {
             case .GET:
-                request = client.manager.request(.GET, url, parameters: params, headers: headers)
+                request = client.manager.request(.GET, url, parameters: params, encoding: encoding, headers: headers)
             case .POST:
                 if let pParams = postParams {
                     request = client.manager.request(.POST, url, parameters: ["": ""], headers: headers, encoding: ParameterEncoding.Custom({ (convertible, _) -> (NSMutableURLRequest, NSError?) in
@@ -249,10 +249,10 @@ public class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializ
      - parameter customResponseHandler: custom handler to deal with HTTPURLResponse, usually you want to use this to extract info from Response's allHeaderFields.
      - parameter defaultResponseQueue : The queue you want response block to be executed on.
      */
-    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, customResponseHandler:((NSHTTPURLResponse?)->T?)? = nil, defaultResponseQueue: dispatch_queue_t? = nil, responseSerializer: RType, errorSerializer: EType) {
+    init(client: GithubNetWorkClient, host: String, route: String, method: Alamofire.Method, params:[String: String] = ["": ""], postParams: JSON? = nil, postData: NSData? = nil, encoding: ParameterEncoding = .URL, customResponseHandler:((NSHTTPURLResponse?)->T?)? = nil, defaultResponseQueue: dispatch_queue_t? = nil, responseSerializer: RType, errorSerializer: EType) {
         httpResponseHandler = customResponseHandler
         self.defaultResponseQueue = defaultResponseQueue
-        super.init(client: client, host: host, route: route, method: method, params: params, postParams: postParams, postData: postData, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
+        super.init(client: client, host: host, route: route, method: method, params: params, postParams: postParams, postData: postData, encoding: encoding, responseSerializer: responseSerializer, errorSerializer: errorSerializer)
     }
     
     /**
