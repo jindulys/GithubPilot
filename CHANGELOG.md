@@ -1,3 +1,9 @@
+## [1.0.3 - GithubPilot, Brand New](https://github.com/jindulys/GithubPilot/releases/tag/1.0.2) (2016-03-25)
+
+#### Add
+* Search API
+
+
 ## [1.0.2 - GithubPilot, Brand New](https://github.com/jindulys/GithubPilot/releases/tag/1.0.2) (2016-03-15)
 
 #### Add
