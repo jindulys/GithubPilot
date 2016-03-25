@@ -36,7 +36,12 @@ public class ReposRoutes {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        return RpcRequest(client: self.client, host: "api", route: "/repos/\(owner)/\(name)", method: .GET, responseSerializer: RepoSerializer(), errorSerializer: StringSerializer())
+        return RpcRequest(client: self.client,
+            host: "api",
+            route: "/repos/\(owner)/\(name)",
+            method: .GET,
+            responseSerializer: RepoSerializer(),
+            errorSerializer: StringSerializer())
     }
     
     /**
@@ -54,7 +59,7 @@ public class ReposRoutes {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:(NSHTTPURLResponse?)->String? = { (response: NSHTTPURLResponse?) in
             if let nonNilResponse = response,
                 link = (nonNilResponse.allHeaderFields["Link"] as? String),
                 sinceRange = link.rangeOfString("page=") {
@@ -76,7 +81,16 @@ public class ReposRoutes {
             return nil
         }
         
-        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(owner)/repos", method: .GET, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: RepoArraySerializer(), errorSerializer: StringSerializer())
+        return RpcCustomResponseRequest(client: self.client,
+            host: "api",
+            route: "/users/\(owner)/repos",
+            method: .GET,
+            params: ["page":page],
+            postParams: nil,
+            postData: nil,
+            customResponseHandler:httpResponseHandler,
+            responseSerializer: RepoArraySerializer(),
+            errorSerializer: StringSerializer())
     }
     
     /**
@@ -91,6 +105,10 @@ public class ReposRoutes {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        return DirectAPIRequest(client: self.client, apiURL: url, method: .GET, responseSerializer: RepoSerializer(), errorSerializer: StringSerializer())
+        return DirectAPIRequest(client: self.client,
+            apiURL: url,
+            method: .GET,
+            responseSerializer: RepoSerializer(),
+            errorSerializer: StringSerializer())
     }
 }

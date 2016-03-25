@@ -44,7 +44,7 @@ public class GithubRepo {
     public let owner: GithubUser?
     public let name: String?
     public let fullName: String?
-    public let description: String?
+    public let descriptions: String?
     public let isPrivate: Bool?
     public let isFork: Bool?
     public let url: String?
@@ -61,12 +61,12 @@ public class GithubRepo {
     public let createdAt: String?
     public let updatedAt: String?
     
-    init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, description: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil, stargazersURL: String? = nil) {
+    init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, descriptions: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil, stargazersURL: String? = nil) {
         self.id = id
         self.owner = owner
         self.name = name
         self.fullName = fullName
-        self.description = description
+        self.descriptions = descriptions
         self.isPrivate = isPrivate
         self.isFork = isFork
         self.url = url
@@ -82,6 +82,21 @@ public class GithubRepo {
         self.watchersCount = watchersCount
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+    }
+}
+
+extension GithubRepo: CustomStringConvertible {
+    public var description: String {
+        var retVal = "{\n"
+        retVal += "\tname   : \(self.name ?? "")\n"
+        retVal += "\tid     : \(self.id)\n"
+        retVal += "\tfullName   : \(self.fullName ?? "")\n"
+        retVal += "\tdescription    : \(self.descriptions ?? "")\n"
+        retVal += "\towner      : \(self.owner?.description ?? "")\n"
+        retVal += "\tstars  : \(self.stargazersCount ?? -1)\n"
+        retVal += "\tlanguage   : \(self.language ?? "")\n"
+        retVal += "\tforks  : \(self.forksCount ?? -1)\n"
+        return retVal
     }
 }
 
@@ -102,7 +117,7 @@ public class RepoSerializer: JSONSerializer {
             "owner": NullableSerializer(self.userSerializer).serialize(value.owner),
             "name": NullableSerializer(Serialization._StringSerializer).serialize(value.name),
             "full_name": NullableSerializer(Serialization._StringSerializer).serialize(value.fullName),
-            "description": NullableSerializer(Serialization._StringSerializer).serialize(value.description),
+            "description": NullableSerializer(Serialization._StringSerializer).serialize(value.descriptions),
             "private": NullableSerializer(Serialization._BoolSerializer).serialize(value.isPrivate),
             "fork": NullableSerializer(Serialization._BoolSerializer).serialize(value.isFork),
             "url": NullableSerializer(Serialization._StringSerializer).serialize(value.url),
@@ -148,7 +163,7 @@ public class RepoSerializer: JSONSerializer {
                 let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .Null)
                 let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .Null)
                 let stargazersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["stargazers_url"] ?? .Null)
-                return GithubRepo(id: id, owner: owner, name: name, fullName: fullName, description: description, isPrivate: isPrivate, isFork: isFork, url: url, htmlURL: htmlURL, cloneURL: cloneURL, collaboratorsURL: collaboratorsURL, commentsURL: commentsURL, homepage: homePage, language: language, forksCount: forskCount, stargazersCount: stargazersCount, watchersCount: watchersCount, createdAt: createdAt, updatedAt: updatedAt, stargazersURL: stargazersURL)
+                return GithubRepo(id: id, owner: owner, name: name, fullName: fullName, descriptions: description, isPrivate: isPrivate, isFork: isFork, url: url, htmlURL: htmlURL, cloneURL: cloneURL, collaboratorsURL: collaboratorsURL, commentsURL: commentsURL, homepage: homePage, language: language, forksCount: forskCount, stargazersCount: stargazersCount, watchersCount: watchersCount, createdAt: createdAt, updatedAt: updatedAt, stargazersURL: stargazersURL)
             default:
                 fatalError("GitHub Repo JSON Type Error")
         }

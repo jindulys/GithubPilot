@@ -17,6 +17,7 @@ public class GithubClient: GithubNetWorkClient {
     public var repos: ReposRoutes!
     public var events: EventsRoutes!
     public var stars: StarsRoutes!
+    public var searchRepo: GithubSearchRepoRoutes!
     
     /**
      Add additionalHeaders if you want.
@@ -57,5 +58,6 @@ public class GithubClient: GithubNetWorkClient {
         self.repos = ReposRoutes(client: self)
         self.events = EventsRoutes(client: self)
         self.stars = StarsRoutes(client: self)
+        self.searchRepo = GithubSearchRepoRoutes(client: self)
     }
 }
