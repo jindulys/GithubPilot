@@ -15,29 +15,33 @@ import Foundation
  
  - returns: The percent-escaped string.
  */
-func githubSearchURLQueryEscape(string: String) -> String {
+func githubSearchURLQueryEscape(_ string: String) -> String {
     let generalDelimitersToEncode = ":#[]@"
     
     let subDelimitersToEncode = "!$&'()*,;="
     
-    let allowedCharacterSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-    allowedCharacterSet.removeCharactersInString(generalDelimitersToEncode + subDelimitersToEncode)
+    let allowedCharacterSet = (CharacterSet.urlQueryAllowed as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
+    allowedCharacterSet.removeCharacters(in: generalDelimitersToEncode + subDelimitersToEncode)
     
     var escaped = ""
-    if #available(iOS 8.3, OSX 10.10, *) {
-        escaped = string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? string
+    if #available(iOS 10.0, OSX 10.12, *) {
+        escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
     } else {
         let batchSize = 50
         var index = string.startIndex
         
         while index != string.endIndex {
-            let startIndex = index
-            let endIndex = index.advancedBy(batchSize, limit: string.endIndex)
-            let range = Range(start: startIndex, end: endIndex)
-            
-            let substring = string.substringWithRange(range)
-            escaped += substring.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? substring
-            index = endIndex
+					let startIndex = index
+					var endIndex: String.Index
+					if let batchedEndIndex = string.index(index, offsetBy: batchSize, limitedBy: string.endIndex) {
+						endIndex = batchedEndIndex
+					} else {
+						endIndex = string.endIndex
+					}
+					let range = (startIndex ..< endIndex)
+					let substring = string.substring(with: range)
+					escaped += substring.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? substring
+					index = endIndex
         }
     }
     return escaped
@@ -46,7 +50,7 @@ func githubSearchURLQueryEscape(string: String) -> String {
 /**
  Creates percent-escaped, URL encoded query string components from the given key-value pair.
  */
-func githubSearchQueryComponents(key: String, _ value: String) -> [(String, String)] {
+func githubSearchQueryComponents(_ key: String, _ value: String) -> [(String, String)] {
     var components: [(String, String)] = []
     
     components.append((githubSearchURLQueryEscape(key), githubSearchURLQueryEscape(value)))

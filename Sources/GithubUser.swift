@@ -9,38 +9,38 @@
 import Foundation
 
 /// GithubUser represents a Github user.
-public class GithubUser {
+open class GithubUser {
     /// The user's login name
-    public let login: String
+    open let login: String
     /// The user's id
-    public let id: Int32
-    public let avatarURL: String
-    public let url: String
-    public let name: String?
-    public let htmlURL: String?
-    public let type: String?
-    public let followersURL: String?
-    public let followingURL: String?
-    public let gistsURL: String?
-    public let starredURL: String?
-    public let subscriptionsURL: String?
-    public let organizationsURL: String?
-    public let reposURL: String?
-    public let eventsURL: String?
-    public let receivedEventsURL: String?
-    public let siteAdmin: Bool?
-    public let company: String?
-    public let blog: String?
-    public let location: String?
-    public let email: String?
-    public let hireable: Bool?
-    public let bio: String?
-    public let publicRepos: Int32?
-    public let publicGists: Int32?
-    public let followers: Int32?
-    public let following: Int32?
-    public let createdAt: String?
-    public let updatedAt: String?
+    open let id: Int32
+    open let avatarURL: String
+    open let url: String
+    open let name: String?
+    open let htmlURL: String?
+    open let type: String?
+    open let followersURL: String?
+    open let followingURL: String?
+    open let gistsURL: String?
+    open let starredURL: String?
+    open let subscriptionsURL: String?
+    open let organizationsURL: String?
+    open let reposURL: String?
+    open let eventsURL: String?
+    open let receivedEventsURL: String?
+    open let siteAdmin: Bool?
+    open let company: String?
+    open let blog: String?
+    open let location: String?
+    open let email: String?
+    open let hireable: Bool?
+    open let bio: String?
+    open let publicRepos: Int32?
+    open let publicGists: Int32?
+    open let followers: Int32?
+    open let following: Int32?
+    open let createdAt: String?
+    open let updatedAt: String?
     
     init(login: String, id: Int32, avatarURL: String, url: String, name: String?, htmlURL: String? = nil, type: String? = nil, followersURL: String? = nil, followingURL: String? = nil, gistsURL: String? = nil, starredURL: String? = nil, subscriptionsURL: String? = nil, organizationsURL: String? = nil, reposURL: String? = nil, eventsURL: String? = nil, receivedEventsURL: String? = nil, siteAdmin: Bool? = nil, company: String? = nil, blog: String? = nil, location: String? = nil, email: String? = nil, hireable: Bool? = nil, bio: String? = nil, publicRepos: Int32? = nil, publicGists: Int32? = nil, followers: Int32? = nil, following: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
         self.login        = login
@@ -113,9 +113,9 @@ extension GithubUser: CustomStringConvertible {
 }
 
 /// GithubUserSerializer
-public class GithubUserSerializer: JSONSerializer {
+open class GithubUserSerializer: JSONSerializer {
     public init() {}
-    public func serialize(value: GithubUser) -> JSON {
+    open func serialize(_ value: GithubUser) -> JSON {
         let retVal = [
             "login": Serialization._StringSerializer.serialize(value.login),
             "id": Serialization._Int32Serializer.serialize(value.id),
@@ -147,41 +147,41 @@ public class GithubUserSerializer: JSONSerializer {
             "created_at": NullableSerializer(Serialization._StringSerializer).serialize(value.createdAt),
             "updated_at": NullableSerializer(Serialization._StringSerializer).serialize(value.updatedAt)
         ]
-        return .Dictionary(retVal)
+        return .dictionary(retVal)
     }
     
-    public func deserialize(json: JSON) -> GithubUser {
+    open func deserialize(_ json: JSON) -> GithubUser {
         switch json {
-            case .Dictionary(let dict):
-                let login = Serialization._StringSerializer.deserialize(dict["login"] ?? .Null)
-                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .Null)
-                let avatarURL = Serialization._StringSerializer.deserialize(dict["avatar_url"] ?? .Null)
-                let url = Serialization._StringSerializer.deserialize(dict["url"] ?? .Null)
-                let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .Null)
-                let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .Null)
-                let type = NullableSerializer(Serialization._StringSerializer).deserialize(dict["type"] ?? .Null)
-                let followersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["followers_url"] ?? .Null)
-                let followingURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["following_url"] ?? .Null)
-                let gistsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["gists_url"] ?? .Null)
-                let starredURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["starred_url"] ?? .Null)
-                let subscriptionsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["subscriptions_url"] ?? .Null)
-                let organizationsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["organizations_url"] ?? .Null)
-                let reposURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["repos_url"] ?? .Null)
-                let eventsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["events_url"] ?? .Null)
-                let receivedEventsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["received_events_url"] ?? .Null)
-                let siteAdmin = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["site_admin"] ?? .Null)
-                let company = NullableSerializer(Serialization._StringSerializer).deserialize(dict["company"] ?? .Null)
-                let blog = NullableSerializer(Serialization._StringSerializer).deserialize(dict["blog"] ?? .Null)
-                let location = NullableSerializer(Serialization._StringSerializer).deserialize(dict["location"] ?? .Null)
-                let email = NullableSerializer(Serialization._StringSerializer).deserialize(dict["email"] ?? .Null)
-                let hireable = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["hireable"] ?? .Null)
-                let bio = NullableSerializer(Serialization._StringSerializer).deserialize(dict["bio"] ?? .Null)
-                let publicRepos = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["public_repos"] ?? .Null)
-                let publicGists = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["public_gists"] ?? .Null)
-                let followers = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["followers"] ?? .Null)
-                let following = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["following"] ?? .Null)
-                let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .Null)
-                let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .Null)
+            case .dictionary(let dict):
+                let login = Serialization._StringSerializer.deserialize(dict["login"] ?? .null)
+                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .null)
+                let avatarURL = Serialization._StringSerializer.deserialize(dict["avatar_url"] ?? .null)
+                let url = Serialization._StringSerializer.deserialize(dict["url"] ?? .null)
+                let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .null)
+                let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .null)
+                let type = NullableSerializer(Serialization._StringSerializer).deserialize(dict["type"] ?? .null)
+                let followersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["followers_url"] ?? .null)
+                let followingURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["following_url"] ?? .null)
+                let gistsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["gists_url"] ?? .null)
+                let starredURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["starred_url"] ?? .null)
+                let subscriptionsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["subscriptions_url"] ?? .null)
+                let organizationsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["organizations_url"] ?? .null)
+                let reposURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["repos_url"] ?? .null)
+                let eventsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["events_url"] ?? .null)
+                let receivedEventsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["received_events_url"] ?? .null)
+                let siteAdmin = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["site_admin"] ?? .null)
+                let company = NullableSerializer(Serialization._StringSerializer).deserialize(dict["company"] ?? .null)
+                let blog = NullableSerializer(Serialization._StringSerializer).deserialize(dict["blog"] ?? .null)
+                let location = NullableSerializer(Serialization._StringSerializer).deserialize(dict["location"] ?? .null)
+                let email = NullableSerializer(Serialization._StringSerializer).deserialize(dict["email"] ?? .null)
+                let hireable = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["hireable"] ?? .null)
+                let bio = NullableSerializer(Serialization._StringSerializer).deserialize(dict["bio"] ?? .null)
+                let publicRepos = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["public_repos"] ?? .null)
+                let publicGists = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["public_gists"] ?? .null)
+                let followers = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["followers"] ?? .null)
+                let following = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["following"] ?? .null)
+                let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .null)
+                let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .null)
                 return GithubUser(login: login, id: id, avatarURL: avatarURL, url: url, name: name, htmlURL: htmlURL, type: type, followersURL: followersURL, followingURL: followingURL, gistsURL: gistsURL, starredURL: starredURL, subscriptionsURL: subscriptionsURL, organizationsURL: organizationsURL, reposURL: reposURL, eventsURL: eventsURL, receivedEventsURL: receivedEventsURL, siteAdmin: siteAdmin, company: company, blog: blog, location: location, email: email, hireable: hireable, bio: bio, publicRepos: publicRepos, publicGists: publicGists, followers: followers, following: following, createdAt: createdAt, updatedAt: updatedAt)
             default:
                 fatalError("JSON Type Error")
@@ -190,7 +190,7 @@ public class GithubUserSerializer: JSONSerializer {
 }
 
 /// UserArraySerializer
-public class UserArraySerializer: JSONSerializer {
+open class UserArraySerializer: JSONSerializer {
     let userSerializer: GithubUserSerializer
     init() {
         self.userSerializer = GithubUserSerializer()
@@ -199,17 +199,17 @@ public class UserArraySerializer: JSONSerializer {
     /**
      [GithubUser] -> JSON
      */
-    public func serialize(value: [GithubUser]) -> JSON {
+    open func serialize(_ value: [GithubUser]) -> JSON {
         let users = value.map { self.userSerializer.serialize($0) }
-        return .Array(users)
+        return .array(users)
     }
     
     /**
      JSON -> [GithubUser]
      */
-    public func deserialize(json: JSON) -> [GithubUser] {
+    open func deserialize(_ json: JSON) -> [GithubUser] {
         switch json {
-        case .Array(let users):
+        case .array(let users):
             return users.map { self.userSerializer.deserialize($0) }
         default:
             fatalError("JSON Type should be array")

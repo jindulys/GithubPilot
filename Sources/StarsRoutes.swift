@@ -9,14 +9,14 @@
 import Foundation
 
 /// Routes for Stars related request.
-public class StarsRoutes {
-    public unowned let client: GithubNetWorkClient
+open class StarsRoutes {
+    open unowned let client: GithubNetWorkClient
     // This queue is used for some long time task to stay around, espicially pagination operation.
-    let longTimeWaitQueue: dispatch_queue_t
+    let longTimeWaitQueue: DispatchQueue
     
     init(client: GithubNetWorkClient) {
         self.client = client
-        self.longTimeWaitQueue = dispatch_queue_create("com.githubpilot.stargazersRoutes.waitingQueue", DISPATCH_QUEUE_SERIAL)
+        self.longTimeWaitQueue = DispatchQueue(label: "com.githubpilot.stargazersRoutes.waitingQueue", attributes: [])
     }
     
     /**
@@ -28,17 +28,17 @@ public class StarsRoutes {
      
      - returns: an RpcRequest, whose response result contains `[GithubUser]`, if pagination is applicable, response result contains `nextpage`.
      */
-    public func getStargazersFor(repo repo: String, owner: String, page: String = "1", defaultResponseQueue: dispatch_queue_t? = nil) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+    open func getStargazersFor(repo: String, owner: String, page: String = "1", defaultResponseQueue: DispatchQueue? = nil) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
         if repo.characters.count == 0 || owner.characters.count == 0 {
             print("Repo name and Owner name must not be empty")
         }
         
-        let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
             if let nonNilResponse = response,
-                link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                sinceRange = link.rangeOfString("page=") {
+                let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+                let sinceRange = link.range(of: "page=") {
                     var retVal = ""
-                    var checkIndex = sinceRange.endIndex
+                    var checkIndex = sinceRange.upperBound
                     
                     while checkIndex != link.endIndex {
                         let character = link.characters[checkIndex]
@@ -48,14 +48,14 @@ public class StarsRoutes {
                         } else {
                             break
                         }
-                        checkIndex = checkIndex.successor()
+                        checkIndex = link.index(after: checkIndex)
                     }
                     return retVal
             }
             return nil
         }
         
-        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/repos/\(owner)/\(repo)/stargazers", method: .GET, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, defaultResponseQueue: defaultResponseQueue, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
+        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/repos/\(owner)/\(repo)/stargazers", method: .get, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, defaultResponseQueue: defaultResponseQueue, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
     }
     
     /**
@@ -67,29 +67,29 @@ public class StarsRoutes {
      - parameter owner:             owner's name.
      - parameter complitionHandler: callback that call on main thread.
      */
-    private func getAllStargazersOldFor(repo repo: String, owner: String, complitionHandler:([GithubUser]?, String?)-> Void) {
-        dispatch_async(self.longTimeWaitQueue) { () -> Void in
-            let privateQueue = dispatch_queue_create("com.githubpilot.stargazersRoutes.responseQueue", DISPATCH_QUEUE_SERIAL)
+    fileprivate func getAllStargazersOldFor(repo: String, owner: String, complitionHandler:@escaping ([GithubUser]?, String?)-> Void) {
+        self.longTimeWaitQueue.async { () -> Void in
+            let privateQueue = DispatchQueue(label: "com.githubpilot.stargazersRoutes.responseQueue", attributes: [])
             var retVal: [GithubUser] = []
             var retError: String?
-            let semaphore = dispatch_semaphore_create(0)
-            var recursiveStargazers: (String, String, String, dispatch_queue_t?) -> Void = {_, _, _, _ in }
+            let semaphore = DispatchSemaphore(value: 0)
+            var recursiveStargazers: (String, String, String, DispatchQueue?) -> Void = {_, _, _, _ in }
             recursiveStargazers = {
                 repo, owner, page, queue in
                 self.getStargazersFor(repo: repo, owner: owner, page: page, defaultResponseQueue: queue).response {
                     (nextPage, result, error) -> Void in
                     if let error = error {
                         retError = error.description
-                        dispatch_semaphore_signal(semaphore)
+                        semaphore.signal()
                     }
                     
                     if let users = result {
-                        retVal.appendContentsOf(users)
+                        retVal.append(contentsOf: users)
                     }
                     
                     if let vpage = nextPage {
                         if vpage == "1" {
-                            dispatch_semaphore_signal(semaphore)
+                            semaphore.signal()
                         } else {
                             recursiveStargazers(repo, owner, vpage, queue)
                         }
@@ -98,11 +98,11 @@ public class StarsRoutes {
             }
             
             recursiveStargazers(repo, owner, "1", privateQueue)
-            let timeoutTime = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * NSEC_PER_SEC))
-            if dispatch_semaphore_wait(semaphore, timeoutTime) != 0 {
+            let timeoutTime = DispatchTime.now() + Double(Int64(100 * NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+            if semaphore.wait(timeout: timeoutTime) == .timedOut {
                 retError = Constants.ErrorInfo.RequestOverTime.rawValue
             }
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 complitionHandler(retVal, retError)
             })
         }
@@ -117,19 +117,19 @@ public class StarsRoutes {
      - parameter owner:             owner's name.
      - parameter complitionHandler: callback that call on main thread.
      */
-    public func getAllStargazersFor(repo repo: String, owner: String, complitionHandler:([GithubUser]?, String?)-> Void) {
+    open func getAllStargazersFor(repo: String, owner: String, complitionHandler:@escaping ([GithubUser]?, String?)-> Void) {
         var recursiveStargazers: (String, String, String) -> Void = {_, _, _ in }
         var retVal: [GithubUser] = []
         recursiveStargazers = {
             repo, owner, page in
             self.getStargazersFor(repo: repo, owner: owner, page: page).response {
                 (nextPage, result, error) -> Void in
-                guard let users = result, vpage = nextPage else {
+                guard let users = result, let vpage = nextPage else {
                     complitionHandler(nil, error?.description ?? "Error,Could not finish this request")
                     return
                 }
 
-                retVal.appendContentsOf(users)
+                retVal.append(contentsOf: users)
                 if vpage == "1" {
                     complitionHandler(retVal, nil)
                 } else {

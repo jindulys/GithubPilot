@@ -21,20 +21,20 @@ struct GithubAuthentication {
 class GithubAuthenticationSerializer: JSONSerializer {
     init() { }
     
-    func serialize(value: GithubAuthentication) -> JSON {
+    func serialize(_ value: GithubAuthentication) -> JSON {
         var retVal:[String: JSON] = [:]
         retVal["id"] = Serialization._Int32Serializer.serialize(value.id)
         retVal["token"] = Serialization._StringSerializer.serialize(value.token)
         retVal["hashed_token"] = Serialization._StringSerializer.serialize(value.hashedToken)
-        return .Dictionary(retVal)
+        return .dictionary(retVal)
     }
     
-    func deserialize(json: JSON) -> GithubAuthentication {
+    func deserialize(_ json: JSON) -> GithubAuthentication {
         switch json {
-            case .Dictionary(let dict):
-                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .Null)
-                let token = Serialization._StringSerializer.deserialize(dict["token"] ?? .Null)
-                let hashedToken = Serialization._StringSerializer.deserialize(dict["hashed_token"] ?? .Null)
+            case .dictionary(let dict):
+                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .null)
+                let token = Serialization._StringSerializer.deserialize(dict["token"] ?? .null)
+                let hashedToken = Serialization._StringSerializer.deserialize(dict["hashed_token"] ?? .null)
                 return GithubAuthentication(id: id, token: token, hashedToken: hashedToken)
             default:
                 fatalError("Wrong Type")
@@ -43,17 +43,17 @@ class GithubAuthenticationSerializer: JSONSerializer {
 }
 
 enum AuthorizationError: CustomStringConvertible {
-    case InvalidParameter
-    case HTTPError(String)
-    case UnknownResponse(String)
+    case invalidParameter
+    case httpError(String)
+    case unknownResponse(String)
     
     var description: String {
         switch self {
-            case .InvalidParameter:
+            case .invalidParameter:
                 return "Invalid Parameter please check your parameter format"
-            case .HTTPError(let error):
+            case .httpError(let error):
                 return "HTTP Error :\(error)"
-            case .UnknownResponse(let error):
+            case .unknownResponse(let error):
                 return "Unknown response :\(error)"
         }
     }
@@ -75,13 +75,13 @@ class GithubAuthenticationRoutes {
      - parameter clientID:    clientID
      - parameter redirectURI: redirectURI should be a unique scheme that your application could deal with.
      */
-    func requestAuthentication(scopes:[String], clientID: String, redirectURI: String) {
+    func requestAuthentication(_ scopes:[String], clientID: String, redirectURI: String) {
         guard let login = self.client.baseHosts["login"] else { return }
         let path = "/login/oauth/authorize"
         // TODO: optimize params generate process, use a cooler way.
-        let urlString = "\(login)\(path)?client_id=\(clientID)&redirect_uri=\(redirectURI)&scope=\(scopes.joinWithSeparator(","))"
-        if let url = NSURL(string: urlString) {
-            UIApplication.sharedApplication().openURL(url)
+        let urlString = "\(login)\(path)?client_id=\(clientID)&redirect_uri=\(redirectURI)&scope=\(scopes.joined(separator: ","))"
+        if let url = URL(string: urlString) {
+            UIApplication.shared.openURL(url)
         } else {
             fatalError("Client should have login URL")
         }
@@ -96,29 +96,25 @@ class GithubAuthenticationRoutes {
     - parameter code:              the code you get from authentication
     - parameter complitionHandler: complitionHandler will return a string contains access_token, or an Error 
     */
-    func requestAccessToken(clientID: String, clientSecret: String, code: String, complitionHandler: (String?, AuthorizationError?)->Void) {
+    func requestAccessToken(_ clientID: String, clientSecret: String, code: String, complitionHandler: @escaping (String?, AuthorizationError?)->Void) {
         let url = "\(self.client.baseHosts["login"]!)/login/oauth/access_token"
         let accessTokenRequest = "client_id=\(clientID)&client_secret=\(clientSecret)&code=\(code)"
-        guard let postData = accessTokenRequest.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true) else {
-            return complitionHandler(nil,.InvalidParameter)
+        guard let postData = accessTokenRequest.data(using: String.Encoding.ascii, allowLossyConversion: true) else {
+            return complitionHandler(nil,.invalidParameter)
         }
     
-        Alamofire.request(.POST, url, parameters: ["":""], encoding:  ParameterEncoding.Custom({ (convertible, _) -> (NSMutableURLRequest, NSError?) in
-            let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
-            let length = postData.length
-            mutableRequest.setValue("\(length)", forHTTPHeaderField: "Content-Length")
-            mutableRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            mutableRequest.HTTPBody = postData
-            return (mutableRequest, nil)
-        }), headers: nil).response { (request, response, data, error) -> Void in
-            let d = data!
-            if error != nil {
-                complitionHandler(nil, .HTTPError("Request Error, code: \(response?.statusCode) description:\(error?.localizedDescription)"))
+        Alamofire.request(url, method: .post,
+                          parameters: ["":""],
+                          encoding: DataPostEncoding(data: postData),
+                          headers: nil).response { response in
+            let d = response.data!
+            if let error = response.error, let response = response.response {
+                complitionHandler(nil, .httpError("Request Error, code: \(response.statusCode) description:\(error.localizedDescription)"))
             } else {
-                if let tokenResponse = NSString(data:d, encoding: NSASCIIStringEncoding) as? String {
+                if let tokenResponse = NSString(data:d, encoding: String.Encoding.ascii.rawValue) as? String {
                     complitionHandler(tokenResponse, nil)
                 } else {
-                    complitionHandler(nil,.UnknownResponse("could not decode response data"))
+                    complitionHandler(nil,.unknownResponse("could not decode response data"))
                 }
             }
         }

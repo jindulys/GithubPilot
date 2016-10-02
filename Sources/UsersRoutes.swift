@@ -9,8 +9,8 @@
 import Foundation
 
 /// Routes for User related Request.
-public class UsersRoutes {
-    public unowned let client: GithubNetWorkClient
+open class UsersRoutes {
+    open unowned let client: GithubNetWorkClient
     init(client: GithubNetWorkClient) {
         self.client = client
     }
@@ -22,8 +22,8 @@ public class UsersRoutes {
      
      - returns: an RpcRequest, whose response result is `GithubUser`.
      */
-    public func getUser(username username: String) -> RpcRequest<GithubUserSerializer, StringSerializer> {
-        return RpcRequest(client: self.client, host: "api", route: "/users/\(username)", method: .GET, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+    open func getUser(username: String) -> RpcRequest<GithubUserSerializer, StringSerializer> {
+        return RpcRequest(client: self.client, host: "api", route: "/users/\(username)", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
     }
     
     /**
@@ -31,8 +31,8 @@ public class UsersRoutes {
      
      - returns: an RpcRequest, whose response result is `GithubUser`.
      */
-    public func getAuthenticatedUser() -> RpcRequest<GithubUserSerializer, StringSerializer> {
-        return RpcRequest(client: self.client, host: "api", route: "/user", method: .GET, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+    open func getAuthenticatedUser() -> RpcRequest<GithubUserSerializer, StringSerializer> {
+        return RpcRequest(client: self.client, host: "api", route: "/user", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
     }
     
     /**
@@ -42,19 +42,19 @@ public class UsersRoutes {
      
      - returns: an RpcCustomResponseRequest
      */
-    public func getAllUsers(since: String) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+    open func getAllUsers(_ since: String) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
         if since.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
         let params = ["since": since]
         
-        let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
             if let nonNilResponse = response,
-                link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                sinceRange = link.rangeOfString("since=") {
+                let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+                let sinceRange = link.range(of: "since=") {
                     var retVal = ""
-                    var checkIndex = sinceRange.endIndex
+                    var checkIndex = sinceRange.upperBound
 
                     while checkIndex != link.endIndex {
                         let character = link.characters[checkIndex]
@@ -64,14 +64,14 @@ public class UsersRoutes {
                         } else {
                             break
                         }
-                        checkIndex = checkIndex.successor()
+                        checkIndex = link.index(after: checkIndex)
                     }
                     return retVal
             }
             return nil
         }
         
-        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users", method: .GET, params: params, postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
+        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users", method: .get, params: params, postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
     }
     
     /**
@@ -81,11 +81,11 @@ public class UsersRoutes {
      
      - returns: a DirectAPIRequest, which you could use to get user's info through `response` method.
      */
-    public func getAPIUser(url url: String) -> DirectAPIRequest<GithubUserSerializer, StringSerializer> {
+    open func getAPIUser(url: String) -> DirectAPIRequest<GithubUserSerializer, StringSerializer> {
         if url.characters.count == 0 {
             print("GithubPilotError Invalid input")
         }
-        return DirectAPIRequest(client: self.client, apiURL: url, method: .GET, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+        return DirectAPIRequest(client: self.client, apiURL: url, method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
     }
     
     /**
@@ -94,28 +94,28 @@ public class UsersRoutes {
      - parameter userAPIURLs:       a list of url contains userAPIURL, which could be used to fetch for the full information
      - parameter complitionHandler: callback when all users get fetched, contains full information of users.
      */
-    public func getFullUsers(userAPIURLs: [String], complitionHandler:([GithubUser]?)->Void) {
-        let fetchUserGroup = dispatch_group_create()
+    open func getFullUsers(_ userAPIURLs: [String], complitionHandler:@escaping ([GithubUser]?)->Void) {
+        let fetchUserGroup = DispatchGroup()
         var results: [GithubUser] = []
         for url in userAPIURLs {
             if url.characters.count > 0 {
                 // Enter group
-                dispatch_group_enter(fetchUserGroup)
+                fetchUserGroup.enter()
                 getAPIUser(url: url).response({ (result, error) -> Void in
                     if let fetchError = error {
                         print("Meeet an error \(fetchError)")
-                        dispatch_group_leave(fetchUserGroup)
+                        fetchUserGroup.leave()
                     }
                     
                     if let user = result {
                         results.append(user)
-                        dispatch_group_leave(fetchUserGroup)
+                        fetchUserGroup.leave()
                     }
                 })
             }
         }
         
-        dispatch_group_notify(fetchUserGroup, dispatch_get_main_queue()) { () -> Void in
+        fetchUserGroup.notify(queue: DispatchQueue.main) { () -> Void in
             complitionHandler(results)
         }
     }

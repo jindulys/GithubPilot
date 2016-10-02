@@ -39,27 +39,27 @@ public enum RepoType: String {
 
 
 /// GithubRepo represents a Github Repo
-public class GithubRepo {
-    public let id: Int32
-    public let owner: GithubUser?
-    public let name: String?
-    public let fullName: String?
-    public let descriptions: String?
-    public let isPrivate: Bool?
-    public let isFork: Bool?
-    public let url: String?
-    public let htmlURL: String?
-    public let cloneURL: String?
-    public let collaboratorsURL: String?
-    public let commentsURL: String?
-    public let homepage: String?
-    public let language: String?
-    public let stargazersURL: String?
-    public let forksCount: Int32?
-    public let stargazersCount: Int32?
-    public let watchersCount: Int32?
-    public let createdAt: String?
-    public let updatedAt: String?
+open class GithubRepo {
+    open let id: Int32
+    open let owner: GithubUser?
+    open let name: String?
+    open let fullName: String?
+    open let descriptions: String?
+    open let isPrivate: Bool?
+    open let isFork: Bool?
+    open let url: String?
+    open let htmlURL: String?
+    open let cloneURL: String?
+    open let collaboratorsURL: String?
+    open let commentsURL: String?
+    open let homepage: String?
+    open let language: String?
+    open let stargazersURL: String?
+    open let forksCount: Int32?
+    open let stargazersCount: Int32?
+    open let watchersCount: Int32?
+    open let createdAt: String?
+    open let updatedAt: String?
     
     init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, descriptions: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil, stargazersURL: String? = nil) {
         self.id = id
@@ -101,7 +101,7 @@ extension GithubRepo: CustomStringConvertible {
 }
 
 /// RepoSerializer
-public class RepoSerializer: JSONSerializer {
+open class RepoSerializer: JSONSerializer {
     let userSerializer: GithubUserSerializer
     
     public init() {
@@ -111,7 +111,7 @@ public class RepoSerializer: JSONSerializer {
     /**
      GithubRepo -> JSON
      */
-    public func serialize(value: GithubRepo) -> JSON {
+    open func serialize(_ value: GithubRepo) -> JSON {
         let retVal = [
             "id": Serialization._Int32Serializer.serialize(value.id),
             "owner": NullableSerializer(self.userSerializer).serialize(value.owner),
@@ -134,35 +134,35 @@ public class RepoSerializer: JSONSerializer {
             "updated_at": NullableSerializer(Serialization._StringSerializer).serialize(value.updatedAt),
             "stargazers_url": NullableSerializer(Serialization._StringSerializer).serialize(value.stargazersURL)
         ]
-        return .Dictionary(retVal)
+        return .dictionary(retVal)
     }
     
     /**
      JSON -> GithubRepo
      */
-    public func deserialize(json: JSON) -> GithubRepo {
+    open func deserialize(_ json: JSON) -> GithubRepo {
         switch json {
-            case .Dictionary(let dict):
-                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .Null)
-                let owner = NullableSerializer(self.userSerializer).deserialize(dict["owner"] ?? .Null)
-                let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .Null)
-                let fullName = NullableSerializer(Serialization._StringSerializer).deserialize(dict["full_name"] ?? .Null)
-                let description = NullableSerializer(Serialization._StringSerializer).deserialize(dict["description"] ?? .Null)
-                let isPrivate = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["private"] ?? .Null)
-                let isFork = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["fork"] ?? .Null)
-                let url = NullableSerializer(Serialization._StringSerializer).deserialize(dict["url"] ?? .Null)
-                let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .Null)
-                let cloneURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["clone_url"] ?? .Null)
-                let collaboratorsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["collaborators_url"] ?? .Null)
-                let commentsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["comments_url"] ?? .Null)
-                let homePage = NullableSerializer(Serialization._StringSerializer).deserialize(dict["homepage"] ?? .Null)
-                let language = NullableSerializer(Serialization._StringSerializer).deserialize(dict["language"] ?? .Null)
-                let forskCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["forks_count"] ?? .Null)
-                let stargazersCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["stargazers_count"] ?? .Null)
-                let watchersCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["watchers_count"] ?? .Null)
-                let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .Null)
-                let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .Null)
-                let stargazersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["stargazers_url"] ?? .Null)
+            case .dictionary(let dict):
+                let id = Serialization._Int32Serializer.deserialize(dict["id"] ?? .null)
+                let owner = NullableSerializer(self.userSerializer).deserialize(dict["owner"] ?? .null)
+                let name = NullableSerializer(Serialization._StringSerializer).deserialize(dict["name"] ?? .null)
+                let fullName = NullableSerializer(Serialization._StringSerializer).deserialize(dict["full_name"] ?? .null)
+                let description = NullableSerializer(Serialization._StringSerializer).deserialize(dict["description"] ?? .null)
+                let isPrivate = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["private"] ?? .null)
+                let isFork = NullableSerializer(Serialization._BoolSerializer).deserialize(dict["fork"] ?? .null)
+                let url = NullableSerializer(Serialization._StringSerializer).deserialize(dict["url"] ?? .null)
+                let htmlURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["html_url"] ?? .null)
+                let cloneURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["clone_url"] ?? .null)
+                let collaboratorsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["collaborators_url"] ?? .null)
+                let commentsURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["comments_url"] ?? .null)
+                let homePage = NullableSerializer(Serialization._StringSerializer).deserialize(dict["homepage"] ?? .null)
+                let language = NullableSerializer(Serialization._StringSerializer).deserialize(dict["language"] ?? .null)
+                let forskCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["forks_count"] ?? .null)
+                let stargazersCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["stargazers_count"] ?? .null)
+                let watchersCount = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["watchers_count"] ?? .null)
+                let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .null)
+                let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .null)
+                let stargazersURL = NullableSerializer(Serialization._StringSerializer).deserialize(dict["stargazers_url"] ?? .null)
                 return GithubRepo(id: id, owner: owner, name: name, fullName: fullName, descriptions: description, isPrivate: isPrivate, isFork: isFork, url: url, htmlURL: htmlURL, cloneURL: cloneURL, collaboratorsURL: collaboratorsURL, commentsURL: commentsURL, homepage: homePage, language: language, forksCount: forskCount, stargazersCount: stargazersCount, watchersCount: watchersCount, createdAt: createdAt, updatedAt: updatedAt, stargazersURL: stargazersURL)
             default:
                 fatalError("GitHub Repo JSON Type Error")
@@ -171,7 +171,7 @@ public class RepoSerializer: JSONSerializer {
 }
 
 /// RepoArraySerializer
-public class RepoArraySerializer: JSONSerializer {
+open class RepoArraySerializer: JSONSerializer {
     let repoSerializer: RepoSerializer
     init() {
         self.repoSerializer = RepoSerializer()
@@ -180,17 +180,17 @@ public class RepoArraySerializer: JSONSerializer {
     /**
      [GithubRepo] -> JSON
      */
-    public func serialize(value: [GithubRepo]) -> JSON {
+    open func serialize(_ value: [GithubRepo]) -> JSON {
         let users = value.map { self.repoSerializer.serialize($0) }
-        return .Array(users)
+        return .array(users)
     }
     
     /**
      JSON -> [GithubRepo]
      */
-    public func deserialize(json: JSON) -> [GithubRepo] {
+    open func deserialize(_ json: JSON) -> [GithubRepo] {
         switch json {
-        case .Array(let users):
+        case .array(let users):
             return users.map { self.repoSerializer.deserialize($0) }
         default:
             fatalError("JSON Type should be array")

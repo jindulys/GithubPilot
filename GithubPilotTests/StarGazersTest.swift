@@ -19,9 +19,9 @@ class StarGazersTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = Alamofire.Manager.defaultHTTPHeaders
-        let manager = Alamofire.Manager(configuration:configuration)
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        let manager = Alamofire.SessionManager(configuration:configuration)
         manager.startRequestsImmediately = false
         testClient = GithubNetWorkClient(manager: manager,
             baseHosts: ["api": "https://api.github.com"])
@@ -36,7 +36,7 @@ class StarGazersTests: XCTestCase {
         
         let username = "jindulys"
         
-        let expectation = expectationWithDescription("WrongParameter")
+        let expectation = self.expectation(description: "WrongParameter")
         testStarsRoutes.getAllStargazersFor(repo: "Hackerlala", owner: username) {
             result, error in
             if let error = error {
@@ -47,7 +47,7 @@ class StarGazersTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(5) { (error) in
+        waitForExpectations(timeout: 5) { (error) in
             XCTAssertNil(error, "\(error)")
         }
     }
@@ -56,7 +56,7 @@ class StarGazersTests: XCTestCase {
         
         let username = "jindulys"
         
-        let expectation = expectationWithDescription("StarGazerCount")
+        let expectation = self.expectation(description: "StarGazerCount")
         testStarsRoutes.getAllStargazersFor(repo: "HackerRankSolutions", owner: username) {
             result, error in
             if let _ = error {
@@ -69,7 +69,7 @@ class StarGazersTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        waitForExpectationsWithTimeout(20) { (error) in
+        waitForExpectations(timeout: 20) { (error) in
             XCTAssertNil(error, "\(error)")
         }
     }
