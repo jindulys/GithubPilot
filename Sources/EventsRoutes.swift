@@ -9,8 +9,8 @@
 import Foundation
 
 /// Routes responsible for Events related request.
-public class EventsRoutes {
-    public unowned let client: GithubNetWorkClient
+open class EventsRoutes {
+    open unowned let client: GithubNetWorkClient
     
     init(client: GithubNetWorkClient) {
         self.client = client
@@ -24,17 +24,17 @@ public class EventsRoutes {
      
      - returns: an RpcRequest, whose response result contains `[GithubEvent]`, if pagination is applicable, response result contains `nextpage`.
      */
-    public func getReceivedEventsForUser(name: String, page: String = "1") -> RpcCustomResponseRequest<EventArraySerializer, StringSerializer, String> {
+    open func getReceivedEventsForUser(_ name: String, page: String = "1") -> RpcCustomResponseRequest<EventArraySerializer, StringSerializer, String> {
         if name.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        let httpResponseHandler:((NSHTTPURLResponse?)->String?)? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
             if let nonNilResponse = response,
-                link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                sinceRange = link.rangeOfString("page=") {
+                let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+                let sinceRange = link.range(of: "page=") {
                     var retVal = ""
-                    var checkIndex = sinceRange.endIndex
+                    var checkIndex = sinceRange.upperBound
                     
                     while checkIndex != link.endIndex {
                         let character = link.characters[checkIndex]
@@ -44,13 +44,13 @@ public class EventsRoutes {
                         } else {
                             break
                         }
-                        checkIndex = checkIndex.successor()
+                        checkIndex = link.index(after: checkIndex)
                     }
                     return retVal
             }
             return nil
         }
         
-        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(name)/received_events", method: .GET, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: EventArraySerializer(), errorSerializer: StringSerializer())
+        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(name)/received_events", method: .get, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: EventArraySerializer(), errorSerializer: StringSerializer())
     }
 }

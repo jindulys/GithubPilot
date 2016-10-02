@@ -96,12 +96,12 @@ public enum EventType: String {
 }
 
 /// GithubEvent represents a Github Event
-public class GithubEvent {
-    public let id: String
-    public let type: EventType
-    public let repo: GithubRepo?
-    public let actor: GithubUser?
-    public let createdAt: String
+open class GithubEvent {
+    open let id: String
+    open let type: EventType
+    open let repo: GithubRepo?
+    open let actor: GithubUser?
+    open let createdAt: String
     
     init(id: String, type: EventType, repo: GithubRepo? = nil, actor: GithubUser? = nil, createdAt: String) {
         self.id = id
@@ -113,7 +113,7 @@ public class GithubEvent {
 }
 
 /// EventSerializer GithubEvent <---> JSON
-public class EventSerializer: JSONSerializer {
+open class EventSerializer: JSONSerializer {
     let userSerializer: GithubUserSerializer
     let repoSerializer: RepoSerializer
     
@@ -125,7 +125,7 @@ public class EventSerializer: JSONSerializer {
     /**
      GithubEvent -> JSON
      */
-    public func serialize(value: GithubEvent) -> JSON {
+    open func serialize(_ value: GithubEvent) -> JSON {
         let retVal = [
             "id": Serialization._StringSerializer.serialize(value.id),
             "type": Serialization._StringSerializer.serialize(value.type.rawValue),
@@ -133,20 +133,20 @@ public class EventSerializer: JSONSerializer {
             "actor": NullableSerializer(self.userSerializer).serialize(value.actor),
             "created_at": Serialization._StringSerializer.serialize(value.createdAt)
         ]
-        return .Dictionary(retVal)
+        return .dictionary(retVal)
     }
     
     /**
      JSON -> GithubEvent
      */
-    public func deserialize(json: JSON) -> GithubEvent {
+    open func deserialize(_ json: JSON) -> GithubEvent {
         switch json {
-            case .Dictionary(let dict):
-                let id = Serialization._StringSerializer.deserialize(dict["id"] ?? .Null)
-                let type = EventType(event: Serialization._StringSerializer.deserialize(dict["type"] ?? .Null))!
-                let repo = NullableSerializer(self.repoSerializer).deserialize(dict["repo"] ?? .Null)
-                let actor = NullableSerializer(self.userSerializer).deserialize(dict["actor"] ?? .Null)
-                let createdAt = Serialization._StringSerializer.deserialize(dict["created_at"] ?? .Null)
+            case .dictionary(let dict):
+                let id = Serialization._StringSerializer.deserialize(dict["id"] ?? .null)
+                let type = EventType(event: Serialization._StringSerializer.deserialize(dict["type"] ?? .null))!
+                let repo = NullableSerializer(self.repoSerializer).deserialize(dict["repo"] ?? .null)
+                let actor = NullableSerializer(self.userSerializer).deserialize(dict["actor"] ?? .null)
+                let createdAt = Serialization._StringSerializer.deserialize(dict["created_at"] ?? .null)
                 return GithubEvent(id: id, type: type, repo: repo, actor: actor, createdAt: createdAt)
             default:
                 fatalError("Github Event JSON Type Error")
@@ -155,7 +155,7 @@ public class EventSerializer: JSONSerializer {
 }
 
 /// Event Array Serializer, which deal with array.
-public class EventArraySerializer: JSONSerializer {
+open class EventArraySerializer: JSONSerializer {
     let eventSerializer: EventSerializer
     init() {
         self.eventSerializer = EventSerializer()
@@ -164,17 +164,17 @@ public class EventArraySerializer: JSONSerializer {
     /**
      [GithubEvent] -> JSON
      */
-    public func serialize(value: [GithubEvent]) -> JSON {
+    open func serialize(_ value: [GithubEvent]) -> JSON {
         let users = value.map { self.eventSerializer.serialize($0) }
-        return .Array(users)
+        return .array(users)
     }
     
     /**
      JSON -> [GithubEvent]
      */
-    public func deserialize(json: JSON) -> [GithubEvent] {
+    open func deserialize(_ json: JSON) -> [GithubEvent] {
         switch json {
-        case .Array(let users):
+        case .array(let users):
             return users.map { self.eventSerializer.deserialize($0) }
         default:
             fatalError("JSON Type should be array")

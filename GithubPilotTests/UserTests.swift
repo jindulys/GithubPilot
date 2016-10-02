@@ -19,9 +19,9 @@ class UserTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = Alamofire.Manager.defaultHTTPHeaders
-        let manager = Alamofire.Manager(configuration:configuration)
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        let manager = Alamofire.SessionManager(configuration:configuration)
         manager.startRequestsImmediately = false
         testClient = GithubNetWorkClient(manager: manager,
                                        baseHosts: ["api": "https://api.github.com"])
@@ -36,7 +36,7 @@ class UserTests: XCTestCase {
         
         let username = "jindulys"
         
-        let expectation = expectationWithDescription("\(username)")
+        let expectation = self.expectation(description: "\(username)")
         testUserRoutes.getUser(username: username).response({ (result, error) -> Void in
             if let user = result {
                 print(user.name)
@@ -51,7 +51,7 @@ class UserTests: XCTestCase {
             }
         })
         
-        waitForExpectationsWithTimeout(5) { (error) in
+        waitForExpectations(timeout: 5) { (error) in
             XCTAssertNil(error, "\(error)")
         }
     }

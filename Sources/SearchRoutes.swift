@@ -34,7 +34,7 @@ public enum GitHubSearchCondition: String {
     case Path = "path"
     
     // Sepecific for Search Users
-    case Type = "type"
+    case `Type` = "type"
     case Repos = "repos"
     case Location = "location"
     case Followers = "followers"
@@ -52,7 +52,7 @@ struct GithubSearchQueryGenerator: QueryStringGenerator {
      
      - returns: format like `language:Swift+repo:leetcode`
      */
-    func generateQueryStringWithSource(source: Any) -> String {
+    func generateQueryStringWithSource(_ source: Any) -> String {
         var retVal = ""
         
         if let conditionDic = source as? [GitHubSearchCondition: String] {
@@ -62,16 +62,42 @@ struct GithubSearchQueryGenerator: QueryStringGenerator {
                 queryPair.append(pair)
             }
             
-            retVal = queryPair.joinWithSeparator("+")
+            retVal = queryPair.joined(separator: "+")
         }
         
         return retVal
     }
 }
 
+internal struct URLQueryEncoding: ParameterEncoding {
+	func query(_ parameters: [String: String]) -> String {
+		var components: [(String, String)] = []
+		
+		for key in parameters.keys.sorted(by: <) {
+			let value = parameters[key]!
+			components += githubSearchQueryComponents(key, value)
+		}
+		
+		return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
+	}
+	
+	func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+		guard var urlRequest = urlRequest.urlRequest else {
+			throw GithubRequestError.InvalidRequest
+		}
+		if let URLComponents = NSURLComponents(url: urlRequest.url!, resolvingAgainstBaseURL: false),
+			let validParams = parameters as? [String: String] {
+			let percentEncodedQuery = (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(validParams)
+			URLComponents.percentEncodedQuery = percentEncodedQuery
+			urlRequest.url = URLComponents.url
+		}
+		return urlRequest
+	}
+}
+
 /// Github Search Repo Routes
-public class GithubSearchRepoRoutes {
-    
+open class GithubSearchRepoRoutes {
+	
     /**
      The sort field. One of stars, forks, or updated. Default: results are sorted by best match.
      */
@@ -80,7 +106,7 @@ public class GithubSearchRepoRoutes {
         case Forks = "forks"
         case Updated = "updated"
     }
-    
+	
     /**
      The sort order if sort parameter is provided. One of asc or desc. Default: desc
      */
@@ -89,7 +115,7 @@ public class GithubSearchRepoRoutes {
         case Desc = "desc"
     }
     
-    public unowned let client: GithubNetWorkClient
+    open unowned let client: GithubNetWorkClient
     init(client: GithubNetWorkClient) {
         self.client = client
     }
@@ -105,18 +131,21 @@ public class GithubSearchRepoRoutes {
      
      - returns: rpc request
      */
-    public func searchRepoForTopic(topic: String, sort: SearchRepoSort = .Updated, order: SearchRepoOrder = .Desc, conditionDict: [GitHubSearchCondition: String]? = nil, page: String = "1") -> RpcCustomResponseRequest<SearchResultSerializer, StringSerializer, String> {
+    open func searchRepoForTopic(_ topic: String,
+                                 sort: SearchRepoSort = .Updated,
+                                 order: SearchRepoOrder = .Desc,
+                                 conditionDict: [GitHubSearchCondition: String]? = nil,
+                                 page: String = "1") -> RpcCustomResponseRequest<SearchResultSerializer, StringSerializer, String> {
         if topic.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        let httpResponseHandler:(NSHTTPURLResponse?) -> String? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:(HTTPURLResponse?) -> String? = { (response: HTTPURLResponse?) in
             if let nonNilResponse = response,
-                link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                sinceRange = link.rangeOfString("page=") {
+								let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+                let sinceRange = link.range(of: "page=") {
                     var retVal = ""
-                    var checkIndex = sinceRange.endIndex
-                    
+                    var checkIndex = sinceRange.upperBound
                     while checkIndex != link.endIndex {
                         let character = link.characters[checkIndex]
                         let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
@@ -125,15 +154,13 @@ public class GithubSearchRepoRoutes {
                         } else {
                             break
                         }
-                        checkIndex = checkIndex.successor()
+                        checkIndex = link.index(after: checkIndex)
                     }
                     return retVal
             }
             return nil
         }
-        
         var topicQuery = topic
-        
         if let conditions = conditionDict {
             topicQuery += "+" + conditions.queryStringWithGenerator(GithubSearchQueryGenerator())
         }
@@ -142,32 +169,11 @@ public class GithubSearchRepoRoutes {
         return RpcCustomResponseRequest(client: self.client,
             host: "api",
             route: "/search/repositories",
-            method: .GET,
+            method: .get,
             params: ["q":topicQuery, "sort": sort.rawValue, "order": order.rawValue, "page":page],
             postParams: nil,
             postData: nil,
-            encoding: ParameterEncoding.Custom({ (convertible, params) -> (NSMutableURLRequest, NSError?) in
-                func query(parameters: [String: String]) -> String {
-                    var components: [(String, String)] = []
-                    
-                    for key in parameters.keys.sort(<) {
-                        let value = parameters[key]!
-                        components += githubSearchQueryComponents(key, value)
-                    }
-                    
-                    return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
-                }
-                
-                let mutableURLRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
-                if let
-                    URLComponents = NSURLComponents(URL: mutableURLRequest.URL!, resolvingAgainstBaseURL: false), validParams = params as? [String: String]
-                {
-                    let percentEncodedQuery = (URLComponents.percentEncodedQuery.map { $0 + "&" } ?? "") + query(validParams)
-                    URLComponents.percentEncodedQuery = percentEncodedQuery
-                    mutableURLRequest.URL = URLComponents.URL
-                }
-                return (mutableURLRequest, nil)
-            }),
+            encoding: URLQueryEncoding(),
             customResponseHandler: httpResponseHandler,
             responseSerializer: SearchResultSerializer(),
             errorSerializer: StringSerializer())
@@ -175,7 +181,7 @@ public class GithubSearchRepoRoutes {
 }
 
 /// RepoArraySerializer
-public class SearchResultSerializer: JSONSerializer {
+open class SearchResultSerializer: JSONSerializer {
     let reposSerializer: RepoArraySerializer
     init() {
         self.reposSerializer = RepoArraySerializer()
@@ -184,16 +190,16 @@ public class SearchResultSerializer: JSONSerializer {
     /**
      descriptions
      */
-    public func serialize(value: [GithubRepo]) -> JSON {
-        return .Null
+    open func serialize(_ value: [GithubRepo]) -> JSON {
+        return .null
     }
     
     /**
      JSON -> [GithubRepo]
      */
-    public func deserialize(json: JSON) -> [GithubRepo] {
+    open func deserialize(_ json: JSON) -> [GithubRepo] {
         switch json {
-        case .Dictionary(let infoDict):
+        case .dictionary(let infoDict):
             var retVal: [GithubRepo] = []
             if let items = infoDict["items"] {
                 retVal = self.reposSerializer.deserialize(items)

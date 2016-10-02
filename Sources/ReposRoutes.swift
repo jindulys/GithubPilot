@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class ReposRoutes {
-    public unowned let client: GithubNetWorkClient
+open class ReposRoutes {
+    open unowned let client: GithubNetWorkClient
     init(client: GithubNetWorkClient) {
         self.client = client
     }
@@ -19,8 +19,13 @@ public class ReposRoutes {
      
      - returns: an RpcRequest, whose response result contains `[GithubRepo]`.
      */
-    public func getAuthenticatedUserRepos() -> RpcRequest<RepoArraySerializer, StringSerializer> {
-        return RpcRequest(client: self.client, host: "api", route: "/user/repos", method: .GET, responseSerializer: RepoArraySerializer(), errorSerializer: StringSerializer())
+    open func getAuthenticatedUserRepos() -> RpcRequest<RepoArraySerializer, StringSerializer> {
+        return RpcRequest(client: self.client,
+                          host: "api",
+                          route: "/user/repos",
+                          method: .get,
+                          responseSerializer: RepoArraySerializer(),
+                          errorSerializer: StringSerializer())
     }
     
     /**
@@ -31,7 +36,7 @@ public class ReposRoutes {
      
      - returns: an RpcRequest, whose response result contain `GithubRepo`.
      */
-    public func getRepo(name: String, owner: String) -> RpcRequest<RepoSerializer, StringSerializer> {
+    open func getRepo(_ name: String, owner: String) -> RpcRequest<RepoSerializer, StringSerializer> {
         if name.characters.count == 0 || owner.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
@@ -39,7 +44,7 @@ public class ReposRoutes {
         return RpcRequest(client: self.client,
             host: "api",
             route: "/repos/\(owner)/\(name)",
-            method: .GET,
+            method: .get,
             responseSerializer: RepoSerializer(),
             errorSerializer: StringSerializer())
     }
@@ -54,17 +59,17 @@ public class ReposRoutes {
      
      - note: Note that page numbering is 1-based and that omitting the ?page parameter will return the first page.
      */
-    public func getRepoFrom(owner owner: String, page: String = "1") -> RpcCustomResponseRequest<RepoArraySerializer, StringSerializer, String> {
+    open func getRepoFrom(owner: String, page: String = "1") -> RpcCustomResponseRequest<RepoArraySerializer, StringSerializer, String> {
         if owner.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
-        let httpResponseHandler:(NSHTTPURLResponse?)->String? = { (response: NSHTTPURLResponse?) in
+        let httpResponseHandler:(HTTPURLResponse?)->String? = { (response: HTTPURLResponse?) in
             if let nonNilResponse = response,
-                link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                sinceRange = link.rangeOfString("page=") {
+                let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+                let sinceRange = link.range(of: "page=") {
                     var retVal = ""
-                    var checkIndex = sinceRange.endIndex
+                    var checkIndex = sinceRange.upperBound
                     
                     while checkIndex != link.endIndex {
                         let character = link.characters[checkIndex]
@@ -74,7 +79,7 @@ public class ReposRoutes {
                         } else {
                             break
                         }
-                        checkIndex = checkIndex.successor()
+                        checkIndex = link.index(after: checkIndex)
                     }
                     return retVal
             }
@@ -84,7 +89,7 @@ public class ReposRoutes {
         return RpcCustomResponseRequest(client: self.client,
             host: "api",
             route: "/users/\(owner)/repos",
-            method: .GET,
+            method: .get,
             params: ["page":page],
             postParams: nil,
             postData: nil,
@@ -100,14 +105,14 @@ public class ReposRoutes {
      
      - returns: Request Object you could get the full information from its successful serializer.
      */
-    public func getAPIRepo(url url: String) -> DirectAPIRequest<RepoSerializer, StringSerializer> {
+    open func getAPIRepo(url: String) -> DirectAPIRequest<RepoSerializer, StringSerializer> {
         if url.characters.count == 0 {
             print(Constants.ErrorInfo.InvalidInput.rawValue)
         }
         
         return DirectAPIRequest(client: self.client,
             apiURL: url,
-            method: .GET,
+            method: .get,
             responseSerializer: RepoSerializer(),
             errorSerializer: StringSerializer())
     }

@@ -1,13 +1,15 @@
 PODS:
-  - Alamofire (3.2.0)
-  - Nocilla (0.10.0)
+  - Alamofire (4.0.1)
+  - Nocilla (0.11.0)
 
 DEPENDENCIES:
   - Alamofire
   - Nocilla
 
 SPEC CHECKSUMS:
-  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
-  Nocilla: ae0a2b05f3087b473624ac2b25903695df51246a
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Nocilla: 7af7a386071150cc8aa5da4da97d060f049dd61c
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 1038275ba9b31debe9e886a24d7a91355e0d962f
+
+COCOAPODS: 1.1.0.rc.2

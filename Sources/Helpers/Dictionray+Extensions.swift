@@ -17,7 +17,7 @@ public protocol QueryStringGenerator {
      
      - parameter source: source to generate a query string with.
      */
-    func generateQueryStringWithSource(source: Any) -> String
+    func generateQueryStringWithSource(_ source: Any) -> String
 }
 
 // MARK: - GithubPilot Dictionary Extension
@@ -28,7 +28,7 @@ public extension Dictionary {
      
      - parameter generator: generator that could use dictionary to generate a query String
      */
-    public func queryStringWithGenerator(generator: QueryStringGenerator) -> String {
+    public func queryStringWithGenerator(_ generator: QueryStringGenerator) -> String {
         return generator.generateQueryStringWithSource(self)
     }
 }

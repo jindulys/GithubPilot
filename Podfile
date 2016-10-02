@@ -7,7 +7,7 @@ target 'GithubPilot' do
   pod 'Alamofire'
 end
 
-target 'GithubPilotTests' do
+target 'GithubPilotTests' do 
   pod 'Nocilla'
 end
 
