@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.platform 	 = :ios
-  s.ios.deployment_target = '8.0' 
+  s.ios.deployment_target = '9.2' 
   s.name         = "GithubPilot"
-  s.version      = "1.0.8"
+  s.version      = "1.0.9"
   s.summary      = "Github API V3 Swifty Wrapper"
   s.description  = <<-DESC
                     A swift implementaion of Github API V3, make query to Github easier.
