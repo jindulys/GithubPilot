@@ -4,7 +4,9 @@
 use_frameworks!
 
 target 'GithubPilot' do
-  pod 'Alamofire'
+  pod 'Alamofire',
+  :git => 'https://github.com/Alamofire/Alamofire.git',
+  :branch => 'swift3'
 end
 
 target 'GithubPilotTests' do 
