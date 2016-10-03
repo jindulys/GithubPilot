@@ -1,9 +1,8 @@
 Pod::Spec.new do |s|
   s.platform 	 = :ios
   s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.11' 
   s.name         = "GithubPilot"
-  s.version      = "1.1.3"
+  s.version      = "1.1.6"
   s.summary      = "Github API V3 Swifty Wrapper"
   s.description  = <<-DESC
                     A swift implementaion of Github API V3, make query to Github easier.
@@ -20,5 +19,5 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/**/*.*"
   s.requires_arc = true
   s.dependency 'Alamofire', '~> 4.0.0'
-  s.framework    = "UIKit"
+  s.ios.framework    = "UIKit"
 end
