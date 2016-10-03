@@ -8,6 +8,8 @@ env:
   - LANG=en_US.UTF-8
   matrix:
   - SCHEME="GithubPilot"
+  - IOS_SDK=iphonesimulator10.0 
+  - DESTINATION="os=10.0,name=iPhone 7 Plus"
 
 before_install:
   - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
@@ -16,5 +18,5 @@ before_install:
 script:
   - set -o pipefail
   - xcodebuild -version
-  - xctool -workspace GithubPilot.xcworkspace -scheme "$SCHEME" -destination "platform=iOS Simulator,name=iPhone 6 Plus" ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+  - xctool -workspace GithubPilot.xcworkspace -scheme "$SCHEME" -destination "$DESTINATION" -sdk "$SDK" ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
   # - xctool test -workspace GithubPilot.xcworkspace -scheme GithubPilotTests -sdk iphonesimulator9.2 ONLY_ACTIVE_ARCH=NO
