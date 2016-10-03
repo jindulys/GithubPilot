@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import Alamofire
 
 /// A Simple Class Represent one Authentication Information

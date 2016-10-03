@@ -36,6 +36,7 @@
 		0EB278D31C78FDE700317F91 /* GithubUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CA1C78FDE700317F91 /* GithubUser.swift */; };
 		0EB278D41C78FDE700317F91 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CB1C78FDE700317F91 /* OAuth.swift */; };
 		0EB278D51C78FDE700317F91 /* UsersRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB278CC1C78FDE700317F91 /* UsersRoutes.swift */; };
+		0EFB459D1DA1E6D600C037C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFB459C1DA1E6D600C037C5 /* Alamofire.framework */; };
 		8AD3ECC0215170670DDF7ACA /* Pods_GithubPilot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49FA57BD238AF0145B23BD7 /* Pods_GithubPilot.framework */; };
 		93B72442A3C5A473CB63D74A /* Pods_GithubPilotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB41FAA450C1E45FC2C0DE57 /* Pods_GithubPilotTests.framework */; };
 /* End PBXBuildFile section */
@@ -86,6 +87,7 @@
 		0EB278CB1C78FDE700317F91 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OAuth.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0EB278CC1C78FDE700317F91 /* UsersRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UsersRoutes.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0EB5499F797314C8D8DAAA47 /* Pods-GithubPilot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilot.release.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilot/Pods-GithubPilot.release.xcconfig"; sourceTree = "<group>"; };
+		0EFB459C1DA1E6D600C037C5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../Library/Developer/Xcode/DerivedData/GithubPilot-efzmhlmypbexhxebumvmpgpbkstp/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
 		34A4253172195A5C1FF22C88 /* Pods-GithubPilot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilot/Pods-GithubPilot.debug.xcconfig"; sourceTree = "<group>"; };
 		9AC2CDFABE9DBAF5719E7AD5 /* Pods-GithubPilotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilotTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B073697F07D9BA82E70F02F1 /* Pods-GithubPilotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubPilotTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GithubPilotTests/Pods-GithubPilotTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EFB459D1DA1E6D600C037C5 /* Alamofire.framework in Frameworks */,
 				8AD3ECC0215170670DDF7ACA /* Pods_GithubPilot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +210,7 @@
 		27D829C9734514DA026D0095 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EFB459C1DA1E6D600C037C5 /* Alamofire.framework */,
 				F49FA57BD238AF0145B23BD7 /* Pods_GithubPilot.framework */,
 				FB41FAA450C1E45FC2C0DE57 /* Pods_GithubPilotTests.framework */,
 			);
