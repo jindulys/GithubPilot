@@ -167,13 +167,13 @@ open class DirectAPIRequest<RType: JSONSerializer, EType: JSONSerializer>: Githu
 	/**
 	Initialize a DirectAPIRequest Object
 	
-	- parameter apiURL:             An API URL provided by some Github JSON response.
+	- parameter apiURL:	An API URL provided by some Github JSON response.
 	
 	*/
-	init(client:GithubNetWorkClient,
+	init(client: GithubNetWorkClient,
 	     apiURL: String,
 	     method: Alamofire.HTTPMethod,
-	     params:[String: String] = ["": ""],
+	     params: [String: String] = ["" : ""],
 	     responseSerializer: RType,
 	     errorSerializer: EType) {
 		var headers = ["Content-Type": "application/json"]
@@ -224,9 +224,10 @@ open class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReque
 	- returns: an initialized RpcRequest.
 	*/
 	init(client: GithubNetWorkClient,
-	     host: String, route: String,
+	     host: String,
+	     route: String,
 	     method: Alamofire.HTTPMethod,
-	     params:[String: String] = ["": ""],
+	     params: [String: String] = ["" : ""],
 	     postParams: JSON? = nil,
 	     postData: Data? = nil,
 	     encoding: ParameterEncoding = URLEncoding.default,
@@ -251,19 +252,19 @@ open class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReque
 			if let pParams = postParams {
 				request = client.manager.request(url,
 				                                 method: .post,
-				                                 parameters: ["": ""],
+				                                 parameters: ["" : ""],
 				                                 encoding: JSONPostEncoding(json: pParams),
 				                                 headers: headers)
 			} else if let pData = postData {
 				request = client.manager.request(url,
 				                                 method: .post,
-				                                 parameters: ["": ""],
+				                                 parameters: ["" : ""],
 				                                 encoding: DataPostEncoding(data: pData),
 				                                 headers: headers)
 			} else {
 				request = client.manager.request(url,
 				                                 method: .post,
-				                                 parameters: ["": ""],
+				                                 parameters: ["" : ""],
 				                                 headers: headers)
 			}
 		default:
@@ -282,7 +283,7 @@ open class RpcRequest<RType: JSONSerializer, EType: JSONSerializer>: GithubReque
 	- returns: self.
 	*/
 	@discardableResult
-	open func response(_ complitionHandler:@escaping (RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
+	open func response(_ complitionHandler: @escaping (RType.ValueType?, RequestError<EType.ValueType>?) -> Void) -> Self {
 		self.request.validate().response { response in
 			let d = response.data!
 			if let error = response.error, let response = response.response {

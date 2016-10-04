@@ -20,7 +20,7 @@ open class GithubClient: GithubNetWorkClient {
 	open var searchRepo: GithubSearchRepoRoutes!
 	
 	/**
-	Add additionalHeaders if you want.
+	Add additionalHeaders if you want.     
 	
 	- parameter needoauth: need add accessToken to header.
 	

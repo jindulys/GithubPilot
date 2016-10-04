@@ -30,7 +30,7 @@ open class Github {
 		GithubAuthManager.sharedAuthManager = GithubAuthManager(clientID: clientID, clientSecret: clientSecret, scope: scope, redirectURI: redirectURI)
 		
 		// Call `sharedManager` once, to create this singleton.
-		GithubManager.sharedManager
+		_ = GithubManager.sharedManager
 	}
 	
 	/**
