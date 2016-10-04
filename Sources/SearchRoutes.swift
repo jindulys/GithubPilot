@@ -11,62 +11,62 @@ import Alamofire
 
 
 /**
- Enumeration for Github Search Query Parameters
- */
+Enumeration for Github Search Query Parameters
+*/
 public enum GitHubSearchCondition: String {
-    // Comm Search Condition
-    case Within = "in"
-    case Size = "size"
-    case Fork = "fork"
-    case User = "user"
-    case Repo = "repo"
-    case Language = "language"
-    
-    // Sepecific for Search Repo
-    case Forks = "forks"
-    case Created = "created"
-    case Pushed = "pushed"
-    case Stars = "stars"
-    
-    // Sepecific for Search Code
-    case Extension = "extension"
-    case FileName = "filename"
-    case Path = "path"
-    
-    // Sepecific for Search Users
-    case `Type` = "type"
-    case Repos = "repos"
-    case Location = "location"
-    case Followers = "followers"
+	// Comm Search Condition
+	case Within = "in"
+	case Size = "size"
+	case Fork = "fork"
+	case User = "user"
+	case Repo = "repo"
+	case Language = "language"
+	
+	// Sepecific for Search Repo
+	case Forks = "forks"
+	case Created = "created"
+	case Pushed = "pushed"
+	case Stars = "stars"
+	
+	// Sepecific for Search Code
+	case Extension = "extension"
+	case FileName = "filename"
+	case Path = "path"
+	
+	// Sepecific for Search Users
+	case `Type` = "type"
+	case Repos = "repos"
+	case Location = "location"
+	case Followers = "followers"
 }
 
 /**
- *  Github Search Specific Query Generator
- */
+*  Github Search Specific Query Generator
+*/
 struct GithubSearchQueryGenerator: QueryStringGenerator {
-    
-    /**
-     GithubSearch Query Generator
-     
-     - parameter source: dictionary with `GithubSearchCondition: String`
-     
-     - returns: format like `language:Swift+repo:leetcode`
-     */
-    func generateQueryStringWithSource(_ source: Any) -> String {
-        var retVal = ""
-        
-        if let conditionDic = source as? [GitHubSearchCondition: String] {
-            var queryPair: [String] = []
-            for (condition, value) in conditionDic {
-                let pair = condition.rawValue + ":" + value
-                queryPair.append(pair)
-            }
-            
-            retVal = queryPair.joined(separator: "+")
-        }
-        
-        return retVal
-    }
+	
+	/**
+	GithubSearch Query Generator
+	
+	- parameter source: dictionary with `GithubSearchCondition: String`
+	
+	- returns: format like `language:Swift+repo:leetcode`
+	*/
+	func generateQueryStringWithSource(_ source: Any) -> String {
+		var retVal = ""
+		
+		if let conditionDic = source as? [GitHubSearchCondition: String] {
+			var queryPair: [String] = []
+			for (condition, value) in conditionDic {
+				let pair = condition.rawValue + ":" + value
+				queryPair.append(pair)
+			}
+			
+			retVal = queryPair.joined(separator: "+")
+		}
+		
+		return retVal
+	}
 }
 
 internal struct URLQueryEncoding: ParameterEncoding {
@@ -98,118 +98,118 @@ internal struct URLQueryEncoding: ParameterEncoding {
 /// Github Search Repo Routes
 open class GithubSearchRepoRoutes {
 	
-    /**
-     The sort field. One of stars, forks, or updated. Default: results are sorted by best match.
-     */
-    public enum SearchRepoSort: String {
-        case Stars = "stars"
-        case Forks = "forks"
-        case Updated = "updated"
-    }
+	/**
+	The sort field. One of stars, forks, or updated. Default: results are sorted by best match.
+	*/
+	public enum SearchRepoSort: String {
+		case Stars = "stars"
+		case Forks = "forks"
+		case Updated = "updated"
+	}
 	
-    /**
-     The sort order if sort parameter is provided. One of asc or desc. Default: desc
-     */
-    public enum  SearchRepoOrder: String {
-        case Asc = "asc"
-        case Desc = "desc"
-    }
-    
-    open unowned let client: GithubNetWorkClient
-    init(client: GithubNetWorkClient) {
-        self.client = client
-    }
-    
-    /**
-     Search Repo for a topic
-     
-     - parameter topic:         topic to search
-     - parameter sort:          sort type
-     - parameter order:         order type
-     - parameter conditionDict: additional search condition [GitHubSearchCondition: String]
-     - parameter page:          page info
-     
-     - returns: rpc request
-     */
-    open func searchRepoForTopic(_ topic: String,
-                                 sort: SearchRepoSort = .Updated,
-                                 order: SearchRepoOrder = .Desc,
-                                 conditionDict: [GitHubSearchCondition: String]? = nil,
-                                 page: String = "1") -> RpcCustomResponseRequest<SearchResultSerializer, StringSerializer, String> {
-        if topic.characters.count == 0 {
-            print(Constants.ErrorInfo.InvalidInput.rawValue)
-        }
-        
-        let httpResponseHandler:(HTTPURLResponse?) -> String? = { (response: HTTPURLResponse?) in
-            if let nonNilResponse = response,
-								let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                let sinceRange = link.range(of: "page=") {
-                    var retVal = ""
-                    var checkIndex = sinceRange.upperBound
-                    while checkIndex != link.endIndex {
-                        let character = link.characters[checkIndex]
-                        let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-                        if characterInt>=0 && characterInt<=9 {
-                            retVal += String(character)
-                        } else {
-                            break
-                        }
-                        checkIndex = link.index(after: checkIndex)
-                    }
-                    return retVal
-            }
-            return nil
-        }
-        var topicQuery = topic
-        if let conditions = conditionDict {
-            topicQuery += "+" + conditions.queryStringWithGenerator(GithubSearchQueryGenerator())
-        }
-        
-        
-        return RpcCustomResponseRequest(client: self.client,
-            host: "api",
-            route: "/search/repositories",
-            method: .get,
-            params: ["q":topicQuery, "sort": sort.rawValue, "order": order.rawValue, "page":page],
-            postParams: nil,
-            postData: nil,
-            encoding: URLQueryEncoding(),
-            customResponseHandler: httpResponseHandler,
-            responseSerializer: SearchResultSerializer(),
-            errorSerializer: StringSerializer())
-    }
+	/**
+	The sort order if sort parameter is provided. One of asc or desc. Default: desc
+	*/
+	public enum  SearchRepoOrder: String {
+		case Asc = "asc"
+		case Desc = "desc"
+	}
+	
+	open unowned let client: GithubNetWorkClient
+	init(client: GithubNetWorkClient) {
+		self.client = client
+	}
+	
+	/**
+	Search Repo for a topic
+	
+	- parameter topic:         topic to search
+	- parameter sort:          sort type
+	- parameter order:         order type
+	- parameter conditionDict: additional search condition [GitHubSearchCondition: String]
+	- parameter page:          page info
+	
+	- returns: rpc request
+	*/
+	open func searchRepoForTopic(_ topic: String,
+	                             sort: SearchRepoSort = .Updated,
+	                             order: SearchRepoOrder = .Desc,
+	                             conditionDict: [GitHubSearchCondition: String]? = nil,
+	                             page: String = "1") -> RpcCustomResponseRequest<SearchResultSerializer, StringSerializer, String> {
+		if topic.characters.count == 0 {
+			print(Constants.ErrorInfo.InvalidInput.rawValue)
+		}
+		
+		let httpResponseHandler:(HTTPURLResponse?) -> String? = { (response: HTTPURLResponse?) in
+			if let nonNilResponse = response,
+				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+				let sinceRange = link.range(of: "page=") {
+				var retVal = ""
+				var checkIndex = sinceRange.upperBound
+				while checkIndex != link.endIndex {
+					let character = link.characters[checkIndex]
+					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
+					if characterInt>=0 && characterInt<=9 {
+						retVal += String(character)
+					} else {
+						break
+					}
+					checkIndex = link.index(after: checkIndex)
+				}
+				return retVal
+			}
+			return nil
+		}
+		var topicQuery = topic
+		if let conditions = conditionDict {
+			topicQuery += "+" + conditions.queryStringWithGenerator(GithubSearchQueryGenerator())
+		}
+		
+		
+		return RpcCustomResponseRequest(client: self.client,
+		                                host: "api",
+		                                route: "/search/repositories",
+		                                method: .get,
+		                                params: ["q":topicQuery, "sort": sort.rawValue, "order": order.rawValue, "page":page],
+		                                postParams: nil,
+		                                postData: nil,
+		                                encoding: URLQueryEncoding(),
+		                                customResponseHandler: httpResponseHandler,
+		                                responseSerializer: SearchResultSerializer(),
+		                                errorSerializer: StringSerializer())
+	}
 }
 
 /// RepoArraySerializer
 open class SearchResultSerializer: JSONSerializer {
-    let reposSerializer: RepoArraySerializer
-    init() {
-        self.reposSerializer = RepoArraySerializer()
-    }
-    
-    /**
-     descriptions
-     */
-    open func serialize(_ value: [GithubRepo]) -> JSON {
-        return .null
-    }
-    
-    /**
-     JSON -> [GithubRepo]
-     */
-    open func deserialize(_ json: JSON) -> [GithubRepo] {
-        switch json {
-        case .dictionary(let infoDict):
-            var retVal: [GithubRepo] = []
-            if let items = infoDict["items"] {
-                retVal = self.reposSerializer.deserialize(items)
-            }
-            
-            return retVal
-        default:
-            fatalError("JSON Type should be array")
-        }
-    }
+	let reposSerializer: RepoArraySerializer
+	init() {
+		self.reposSerializer = RepoArraySerializer()
+	}
+	
+	/**
+	descriptions
+	*/
+	open func serialize(_ value: [GithubRepo]) -> JSON {
+		return .null
+	}
+	
+	/**
+	JSON -> [GithubRepo]
+	*/
+	open func deserialize(_ json: JSON) -> [GithubRepo] {
+		switch json {
+		case .dictionary(let infoDict):
+			var retVal: [GithubRepo] = []
+			if let items = infoDict["items"] {
+				retVal = self.reposSerializer.deserialize(items)
+			}
+			
+			return retVal
+		default:
+			fatalError("JSON Type should be array")
+		}
+	}
 }
 
 

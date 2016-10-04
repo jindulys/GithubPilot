@@ -10,113 +10,113 @@ import Foundation
 
 /// Routes for User related Request.
 open class UsersRoutes {
-    open unowned let client: GithubNetWorkClient
-    init(client: GithubNetWorkClient) {
-        self.client = client
-    }
-    
-    /**
-     Get a single user.
-     
-     - parameter username: a Github user's username.
-     
-     - returns: an RpcRequest, whose response result is `GithubUser`.
-     */
-    open func getUser(username: String) -> RpcRequest<GithubUserSerializer, StringSerializer> {
-        return RpcRequest(client: self.client, host: "api", route: "/users/\(username)", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
-    }
-    
-    /**
-     Get current authenticated user.
-     
-     - returns: an RpcRequest, whose response result is `GithubUser`.
-     */
-    open func getAuthenticatedUser() -> RpcRequest<GithubUserSerializer, StringSerializer> {
-        return RpcRequest(client: self.client, host: "api", route: "/user", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
-    }
-    
-    /**
-     Get all Users, this is a pagination request, you could get `since` which represent next page of users' start ID from `.response` complitionHandler's first paramete
-     
-     - parameter since: The integer ID of the last User that you've seen, you could get this from `.response` complitionHandler's first parameter
-     
-     - returns: an RpcCustomResponseRequest
-     */
-    open func getAllUsers(_ since: String) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
-        if since.characters.count == 0 {
-            print(Constants.ErrorInfo.InvalidInput.rawValue)
-        }
-        
-        let params = ["since": since]
-        
-        let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
-            if let nonNilResponse = response,
-                let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-                let sinceRange = link.range(of: "since=") {
-                    var retVal = ""
-                    var checkIndex = sinceRange.upperBound
-
-                    while checkIndex != link.endIndex {
-                        let character = link.characters[checkIndex]
-                        let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-                        if characterInt>=0 && characterInt<=9 {
-                            retVal += String(character)
-                        } else {
-                            break
-                        }
-                        checkIndex = link.index(after: checkIndex)
-                    }
-                    return retVal
-            }
-            return nil
-        }
-        
-        return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users", method: .get, params: params, postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
-    }
-    
-    /**
-     Get a user's full information through API url.
-     
-     - parameter url: user's api url, e.g `https://api.github.com/users/octocat`.
-     
-     - returns: a DirectAPIRequest, which you could use to get user's info through `response` method.
-     */
-    open func getAPIUser(url: String) -> DirectAPIRequest<GithubUserSerializer, StringSerializer> {
-        if url.characters.count == 0 {
-            print("GithubPilotError Invalid input")
-        }
-        return DirectAPIRequest(client: self.client, apiURL: url, method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
-    }
-    
-    /**
-     Get a list of users' full information
-     
-     - parameter userAPIURLs:       a list of url contains userAPIURL, which could be used to fetch for the full information
-     - parameter complitionHandler: callback when all users get fetched, contains full information of users.
-     */
-    open func getFullUsers(_ userAPIURLs: [String], complitionHandler:@escaping ([GithubUser]?)->Void) {
-        let fetchUserGroup = DispatchGroup()
-        var results: [GithubUser] = []
-        for url in userAPIURLs {
-            if url.characters.count > 0 {
-                // Enter group
-                fetchUserGroup.enter()
-                getAPIUser(url: url).response({ (result, error) -> Void in
-                    if let fetchError = error {
-                        print("Meeet an error \(fetchError)")
-                        fetchUserGroup.leave()
-                    }
-                    
-                    if let user = result {
-                        results.append(user)
-                        fetchUserGroup.leave()
-                    }
-                })
-            }
-        }
-        
-        fetchUserGroup.notify(queue: DispatchQueue.main) { () -> Void in
-            complitionHandler(results)
-        }
-    }
+	open unowned let client: GithubNetWorkClient
+	init(client: GithubNetWorkClient) {
+		self.client = client
+	}
+	
+	/**
+	Get a single user.
+	
+	- parameter username: a Github user's username.
+	
+	- returns: an RpcRequest, whose response result is `GithubUser`.
+	*/
+	open func getUser(username: String) -> RpcRequest<GithubUserSerializer, StringSerializer> {
+		return RpcRequest(client: self.client, host: "api", route: "/users/\(username)", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+	}
+	
+	/**
+	Get current authenticated user.
+	
+	- returns: an RpcRequest, whose response result is `GithubUser`.
+	*/
+	open func getAuthenticatedUser() -> RpcRequest<GithubUserSerializer, StringSerializer> {
+		return RpcRequest(client: self.client, host: "api", route: "/user", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+	}
+	
+	/**
+	Get all Users, this is a pagination request, you could get `since` which represent next page of users' start ID from `.response` complitionHandler's first paramete
+	
+	- parameter since: The integer ID of the last User that you've seen, you could get this from `.response` complitionHandler's first parameter
+	
+	- returns: an RpcCustomResponseRequest
+	*/
+	open func getAllUsers(_ since: String) -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+		if since.characters.count == 0 {
+			print(Constants.ErrorInfo.InvalidInput.rawValue)
+		}
+		
+		let params = ["since": since]
+		
+		let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
+			if let nonNilResponse = response,
+				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+				let sinceRange = link.range(of: "since=") {
+				var retVal = ""
+				var checkIndex = sinceRange.upperBound
+				
+				while checkIndex != link.endIndex {
+					let character = link.characters[checkIndex]
+					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
+					if characterInt>=0 && characterInt<=9 {
+						retVal += String(character)
+					} else {
+						break
+					}
+					checkIndex = link.index(after: checkIndex)
+				}
+				return retVal
+			}
+			return nil
+		}
+		
+		return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users", method: .get, params: params, postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
+	}
+	
+	/**
+	Get a user's full information through API url.
+	
+	- parameter url: user's api url, e.g `https://api.github.com/users/octocat`.
+	
+	- returns: a DirectAPIRequest, which you could use to get user's info through `response` method.
+	*/
+	open func getAPIUser(url: String) -> DirectAPIRequest<GithubUserSerializer, StringSerializer> {
+		if url.characters.count == 0 {
+			print("GithubPilotError Invalid input")
+		}
+		return DirectAPIRequest(client: self.client, apiURL: url, method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+	}
+	
+	/**
+	Get a list of users' full information
+	
+	- parameter userAPIURLs:       a list of url contains userAPIURL, which could be used to fetch for the full information
+	- parameter complitionHandler: callback when all users get fetched, contains full information of users.
+	*/
+	open func getFullUsers(_ userAPIURLs: [String], complitionHandler:@escaping ([GithubUser]?)->Void) {
+		let fetchUserGroup = DispatchGroup()
+		var results: [GithubUser] = []
+		for url in userAPIURLs {
+			if url.characters.count > 0 {
+				// Enter group
+				fetchUserGroup.enter()
+				getAPIUser(url: url).response({ (result, error) -> Void in
+					if let fetchError = error {
+						print("Meeet an error \(fetchError)")
+						fetchUserGroup.leave()
+					}
+					
+					if let user = result {
+						results.append(user)
+						fetchUserGroup.leave()
+					}
+				})
+			}
+		}
+		
+		fetchUserGroup.notify(queue: DispatchQueue.main) { () -> Void in
+			complitionHandler(results)
+		}
+	}
 }
