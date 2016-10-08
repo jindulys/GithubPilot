@@ -41,27 +41,6 @@ open class UsersRoutes {
 	- returns: an RpcRequest, where contains an array of followers.
 	*/
 	open func getFollowersFor(user: String, page: String = "1") -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
-		let httpResponseHandler:(HTTPURLResponse?)->String? = { (response: HTTPURLResponse?) in
-			if let nonNilResponse = response,
-				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-				let sinceRange = link.range(of: "page=") {
-				var retVal = ""
-				var checkIndex = sinceRange.upperBound
-				
-				while checkIndex != link.endIndex {
-					let character = link.characters[checkIndex]
-					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-					if characterInt>=0 && characterInt<=9 {
-						retVal += String(character)
-					} else {
-						break
-					}
-					checkIndex = link.index(after: checkIndex)
-				}
-				return retVal
-			}
-			return nil
-		}
 		return RpcCustomResponseRequest(client: self.client,
 		                                host: "api",
 		                                route: "/users/\(user)/followers",
@@ -69,7 +48,7 @@ open class UsersRoutes {
 																		params: ["page" : page],
 																		postParams: nil,
 																		postData: nil,
-																		customResponseHandler: httpResponseHandler,
+																		customResponseHandler: GPHttpResponseHandler.PageHandler,
 																		responseSerializer: UserArraySerializer(),
 																		errorSerializer: StringSerializer())
 		
@@ -85,27 +64,6 @@ open class UsersRoutes {
 	- returns: an RpcRequest, where contains an array of followers.
 	*/
 	open func getFollowingFor(user: String, page: String = "1") -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
-		let httpResponseHandler:(HTTPURLResponse?)->String? = { (response: HTTPURLResponse?) in
-			if let nonNilResponse = response,
-				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-				let sinceRange = link.range(of: "page=") {
-				var retVal = ""
-				var checkIndex = sinceRange.upperBound
-				
-				while checkIndex != link.endIndex {
-					let character = link.characters[checkIndex]
-					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-					if characterInt>=0 && characterInt<=9 {
-						retVal += String(character)
-					} else {
-						break
-					}
-					checkIndex = link.index(after: checkIndex)
-				}
-				return retVal
-			}
-			return nil
-		}
 		return RpcCustomResponseRequest(client: self.client,
 		                                host: "api",
 		                                route: "/users/\(user)/following",
@@ -113,7 +71,7 @@ open class UsersRoutes {
 																		params: ["page" : page],
 																		postParams: nil,
 																		postData: nil,
-																		customResponseHandler: httpResponseHandler,
+																		customResponseHandler: GPHttpResponseHandler.PageHandler,
 																		responseSerializer: UserArraySerializer(),
 																		errorSerializer: StringSerializer())
 	}
