@@ -32,6 +32,115 @@ open class UsersRoutes {
 	}
 	
 	/**
+	Get followers for user.
+	
+	- parameter user: a Github user's username.
+	
+	- parameter page: a specific page to query.
+	
+	- returns: an RpcRequest, where contains an array of followers.
+	*/
+	open func getFollowersFor(user: String, page: String = "1") -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+		let httpResponseHandler:(HTTPURLResponse?)->String? = { (response: HTTPURLResponse?) in
+			if let nonNilResponse = response,
+				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+				let sinceRange = link.range(of: "page=") {
+				var retVal = ""
+				var checkIndex = sinceRange.upperBound
+				
+				while checkIndex != link.endIndex {
+					let character = link.characters[checkIndex]
+					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
+					if characterInt>=0 && characterInt<=9 {
+						retVal += String(character)
+					} else {
+						break
+					}
+					checkIndex = link.index(after: checkIndex)
+				}
+				return retVal
+			}
+			return nil
+		}
+		return RpcCustomResponseRequest(client: self.client,
+		                                host: "api",
+		                                route: "/users/\(user)/followers",
+																		method: .get,
+																		params: ["page" : page],
+																		postParams: nil,
+																		postData: nil,
+																		customResponseHandler: httpResponseHandler,
+																		responseSerializer: UserArraySerializer(),
+																		errorSerializer: StringSerializer())
+		
+	}
+	
+	/**
+	Get following for user.
+	
+	- parameter user: a Github user's username.
+	
+	- parameter page: a specific page to query.
+	
+	- returns: an RpcRequest, where contains an array of followers.
+	*/
+	open func getFollowingFor(user: String, page: String = "1") -> RpcCustomResponseRequest<UserArraySerializer, StringSerializer, String> {
+		let httpResponseHandler:(HTTPURLResponse?)->String? = { (response: HTTPURLResponse?) in
+			if let nonNilResponse = response,
+				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+				let sinceRange = link.range(of: "page=") {
+				var retVal = ""
+				var checkIndex = sinceRange.upperBound
+				
+				while checkIndex != link.endIndex {
+					let character = link.characters[checkIndex]
+					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
+					if characterInt>=0 && characterInt<=9 {
+						retVal += String(character)
+					} else {
+						break
+					}
+					checkIndex = link.index(after: checkIndex)
+				}
+				return retVal
+			}
+			return nil
+		}
+		return RpcCustomResponseRequest(client: self.client,
+		                                host: "api",
+		                                route: "/users/\(user)/following",
+																		method: .get,
+																		params: ["page" : page],
+																		postParams: nil,
+																		postData: nil,
+																		customResponseHandler: httpResponseHandler,
+																		responseSerializer: UserArraySerializer(),
+																		errorSerializer: StringSerializer())
+	}
+	
+	let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
+		if let nonNilResponse = response,
+			let link = (nonNilResponse.allHeaderFields["Link"] as? String),
+			let sinceRange = link.range(of: "page=") {
+			var retVal = ""
+			var checkIndex = sinceRange.upperBound
+			
+			while checkIndex != link.endIndex {
+				let character = link.characters[checkIndex]
+				let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
+				if characterInt>=0 && characterInt<=9 {
+					retVal += String(character)
+				} else {
+					break
+				}
+				checkIndex = link.index(after: checkIndex)
+			}
+			return retVal
+		}
+		return nil
+	}
+	
+	/**
 	Get current authenticated user.
 	
 	- returns: an RpcRequest, whose response result is `GithubUser`.
