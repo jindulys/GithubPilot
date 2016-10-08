@@ -35,28 +35,6 @@ open class StarsRoutes {
 		if repo.characters.count == 0 || owner.characters.count == 0 {
 			print("Repo name and Owner name must not be empty")
 		}
-		
-		let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
-			if let nonNilResponse = response,
-				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-				let sinceRange = link.range(of: "page=") {
-				var retVal = ""
-				var checkIndex = sinceRange.upperBound
-				
-				while checkIndex != link.endIndex {
-					let character = link.characters[checkIndex]
-					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-					if characterInt>=0 && characterInt<=9 {
-						retVal += String(character)
-					} else {
-						break
-					}
-					checkIndex = link.index(after: checkIndex)
-				}
-				return retVal
-			}
-			return nil
-		}
 		return RpcCustomResponseRequest(client: self.client,
 		                                host: "api",
 		                                route: "/repos/\(owner)/\(repo)/stargazers",
@@ -64,7 +42,7 @@ open class StarsRoutes {
 																		params: ["page":page],
 																		postParams: nil,
 																		postData: nil,
-																		customResponseHandler: httpResponseHandler,
+																		customResponseHandler: GPHttpResponseHandler.PageHandler,
 																		defaultResponseQueue: defaultResponseQueue,
 																		responseSerializer: UserArraySerializer(),
 																		errorSerializer: StringSerializer())

@@ -140,27 +140,6 @@ open class GithubSearchRepoRoutes {
 		if topic.characters.count == 0 {
 			print(Constants.ErrorInfo.InvalidInput.rawValue)
 		}
-		
-		let httpResponseHandler:(HTTPURLResponse?) -> String? = { (response: HTTPURLResponse?) in
-			if let nonNilResponse = response,
-				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
-				let sinceRange = link.range(of: "page=") {
-				var retVal = ""
-				var checkIndex = sinceRange.upperBound
-				while checkIndex != link.endIndex {
-					let character = link.characters[checkIndex]
-					let characterInt = character.zeroCharacterBasedunicodeScalarCodePoint()
-					if characterInt>=0 && characterInt<=9 {
-						retVal += String(character)
-					} else {
-						break
-					}
-					checkIndex = link.index(after: checkIndex)
-				}
-				return retVal
-			}
-			return nil
-		}
 		var topicQuery = topic
 		if let conditions = conditionDict {
 			topicQuery += "+" + conditions.queryStringWithGenerator(GithubSearchQueryGenerator())
@@ -175,7 +154,7 @@ open class GithubSearchRepoRoutes {
 		                                postParams: nil,
 		                                postData: nil,
 		                                encoding: URLQueryEncoding(),
-		                                customResponseHandler: httpResponseHandler,
+		                                customResponseHandler: GPHttpResponseHandler.PageHandler,
 		                                responseSerializer: SearchResultSerializer(),
 		                                errorSerializer: StringSerializer())
 	}
