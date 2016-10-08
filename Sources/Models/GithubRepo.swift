@@ -61,7 +61,26 @@ open class GithubRepo {
 	open let createdAt: String?
 	open let updatedAt: String?
 	
-	init(id: Int32, owner: GithubUser? = nil, name: String? = nil, fullName: String? = nil, descriptions: String? = nil, isPrivate: Bool? = nil, isFork: Bool? = nil, url: String? = nil, htmlURL: String? = nil, cloneURL: String? = nil, collaboratorsURL: String? = nil, commentsURL: String? = nil, homepage: String? = nil, language: String? = nil, forksCount: Int32? = nil, stargazersCount: Int32? = nil, watchersCount: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil, stargazersURL: String? = nil) {
+	init(id: Int32,
+	     owner: GithubUser? = nil,
+	     name: String? = nil,
+	     fullName: String? = nil,
+	     descriptions: String? = nil,
+	     isPrivate: Bool? = nil,
+	     isFork: Bool? = nil,
+	     url: String? = nil,
+	     htmlURL: String? = nil,
+	     cloneURL: String? = nil,
+	     collaboratorsURL: String? = nil,
+	     commentsURL: String? = nil,
+	     homepage: String? = nil,
+	     language: String? = nil,
+	     forksCount: Int32? = nil,
+	     stargazersCount: Int32? = nil,
+	     watchersCount: Int32? = nil,
+	     createdAt: String? = nil,
+	     updatedAt: String? = nil,
+	     stargazersURL: String? = nil) {
 		self.id = id
 		self.owner = owner
 		self.name = name

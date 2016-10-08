@@ -51,6 +51,15 @@ open class EventsRoutes {
 			return nil
 		}
 		
-		return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users/\(name)/received_events", method: .get, params: ["page":page], postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: EventArraySerializer(), errorSerializer: StringSerializer())
+		return RpcCustomResponseRequest(client: self.client,
+		                                host: "api",
+		                                route: "/users/\(name)/received_events",
+																		method: .get,
+																		params: ["page":page],
+																		postParams: nil,
+																		postData: nil,
+																		customResponseHandler:httpResponseHandler,
+																		responseSerializer: EventArraySerializer(),
+																		errorSerializer: StringSerializer())
 	}
 }

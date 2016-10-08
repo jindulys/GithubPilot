@@ -95,9 +95,13 @@ class GithubAuthenticationRoutes {
 	- parameter code:              the code you get from authentication
 	- parameter complitionHandler: complitionHandler will return a string contains access_token, or an Error
 	*/
-	func requestAccessToken(_ clientID: String, clientSecret: String, code: String, complitionHandler: @escaping (String?, AuthorizationError?)->Void) {
+	func requestAccessToken(_ clientID: String,
+	                        clientSecret: String,
+	                        code: String,
+	                        complitionHandler: @escaping (String?, AuthorizationError?) ->Void) {
 		let url = "\(self.client.baseHosts["login"]!)/login/oauth/access_token"
-		let accessTokenRequest = "client_id=\(clientID)&client_secret=\(clientSecret)&code=\(code)"
+		let accessTokenRequest =
+				"client_id=\(clientID)&client_secret=\(clientSecret)&code=\(code)"
 		guard let postData = accessTokenRequest.data(using: String.Encoding.ascii, allowLossyConversion: true) else {
 			return complitionHandler(nil,.invalidParameter)
 		}

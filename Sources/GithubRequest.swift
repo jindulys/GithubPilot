@@ -317,7 +317,9 @@ open class RpcCustomResponseRequest<RType: JSONSerializer, EType: JSONSerializer
 	     postData: Data? = nil,
 	     encoding: ParameterEncoding = URLEncoding.default,
 	     customResponseHandler: ((HTTPURLResponse?)->T?)? = nil,
-	     defaultResponseQueue: DispatchQueue? = nil, responseSerializer: RType, errorSerializer: EType) {
+	     defaultResponseQueue: DispatchQueue? = nil,
+	     responseSerializer: RType,
+	     errorSerializer: EType) {
 		httpResponseHandler = customResponseHandler
 		self.defaultResponseQueue = defaultResponseQueue
 		super.init(client: client,

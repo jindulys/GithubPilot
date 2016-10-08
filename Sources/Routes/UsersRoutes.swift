@@ -23,7 +23,12 @@ open class UsersRoutes {
 	- returns: an RpcRequest, whose response result is `GithubUser`.
 	*/
 	open func getUser(username: String) -> RpcRequest<GithubUserSerializer, StringSerializer> {
-		return RpcRequest(client: self.client, host: "api", route: "/users/\(username)", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+		return RpcRequest(client: self.client,
+		                  host: "api",
+		                  route: "/users/\(username)",
+											method: .get,
+											responseSerializer: GithubUserSerializer(),
+											errorSerializer: StringSerializer())
 	}
 	
 	/**
@@ -32,7 +37,12 @@ open class UsersRoutes {
 	- returns: an RpcRequest, whose response result is `GithubUser`.
 	*/
 	open func getAuthenticatedUser() -> RpcRequest<GithubUserSerializer, StringSerializer> {
-		return RpcRequest(client: self.client, host: "api", route: "/user", method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+		return RpcRequest(client: self.client,
+		                  host: "api",
+		                  route: "/user",
+		                  method: .get,
+		                  responseSerializer: GithubUserSerializer(),
+		                  errorSerializer: StringSerializer())
 	}
 	
 	/**
@@ -46,9 +56,7 @@ open class UsersRoutes {
 		if since.characters.count == 0 {
 			print(Constants.ErrorInfo.InvalidInput.rawValue)
 		}
-		
 		let params = ["since": since]
-		
 		let httpResponseHandler:((HTTPURLResponse?)->String?)? = { (response: HTTPURLResponse?) in
 			if let nonNilResponse = response,
 				let link = (nonNilResponse.allHeaderFields["Link"] as? String),
@@ -70,8 +78,16 @@ open class UsersRoutes {
 			}
 			return nil
 		}
-		
-		return RpcCustomResponseRequest(client: self.client, host: "api", route: "/users", method: .get, params: params, postParams: nil, postData: nil,customResponseHandler:httpResponseHandler, responseSerializer: UserArraySerializer(), errorSerializer: StringSerializer())
+		return RpcCustomResponseRequest(client: self.client,
+		                                host: "api",
+		                                route: "/users",
+		                                method: .get,
+		                                params: params,
+		                                postParams: nil,
+		                                postData: nil,
+		                                customResponseHandler: httpResponseHandler,
+		                                responseSerializer: UserArraySerializer(),
+		                                errorSerializer: StringSerializer())
 	}
 	
 	/**
@@ -85,7 +101,11 @@ open class UsersRoutes {
 		if url.characters.count == 0 {
 			print("GithubPilotError Invalid input")
 		}
-		return DirectAPIRequest(client: self.client, apiURL: url, method: .get, responseSerializer: GithubUserSerializer(), errorSerializer: StringSerializer())
+		return DirectAPIRequest(client: self.client,
+		                        apiURL: url,
+		                        method: .get,
+		                        responseSerializer: GithubUserSerializer(),
+		                        errorSerializer: StringSerializer())
 	}
 	
 	/**

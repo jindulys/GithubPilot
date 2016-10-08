@@ -42,7 +42,35 @@ open class GithubUser {
 	open let createdAt: String?
 	open let updatedAt: String?
 	
-	init(login: String, id: Int32, avatarURL: String, url: String, name: String?, htmlURL: String? = nil, type: String? = nil, followersURL: String? = nil, followingURL: String? = nil, gistsURL: String? = nil, starredURL: String? = nil, subscriptionsURL: String? = nil, organizationsURL: String? = nil, reposURL: String? = nil, eventsURL: String? = nil, receivedEventsURL: String? = nil, siteAdmin: Bool? = nil, company: String? = nil, blog: String? = nil, location: String? = nil, email: String? = nil, hireable: Bool? = nil, bio: String? = nil, publicRepos: Int32? = nil, publicGists: Int32? = nil, followers: Int32? = nil, following: Int32? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+	init(login: String,
+	     id: Int32,
+	     avatarURL: String,
+	     url: String,
+	     name: String?,
+	     htmlURL: String? = nil,
+	     type: String? = nil,
+	     followersURL: String? = nil,
+	     followingURL: String? = nil,
+	     gistsURL: String? = nil,
+	     starredURL: String? = nil,
+	     subscriptionsURL: String? = nil,
+	     organizationsURL: String? = nil,
+	     reposURL: String? = nil,
+	     eventsURL: String? = nil,
+	     receivedEventsURL: String? = nil,
+	     siteAdmin: Bool? = nil,
+	     company: String? = nil,
+	     blog: String? = nil,
+	     location: String? = nil,
+	     email: String? = nil,
+	     hireable: Bool? = nil,
+	     bio: String? = nil,
+	     publicRepos: Int32? = nil,
+	     publicGists: Int32? = nil,
+	     followers: Int32? = nil,
+	     following: Int32? = nil,
+	     createdAt: String? = nil,
+	     updatedAt: String? = nil) {
 		self.login        = login
 		self.id           = id
 		self.avatarURL    = avatarURL
@@ -182,7 +210,35 @@ open class GithubUserSerializer: JSONSerializer {
 			let following = NullableSerializer(Serialization._Int32Serializer).deserialize(dict["following"] ?? .null)
 			let createdAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["created_at"] ?? .null)
 			let updatedAt = NullableSerializer(Serialization._StringSerializer).deserialize(dict["updated_at"] ?? .null)
-			return GithubUser(login: login, id: id, avatarURL: avatarURL, url: url, name: name, htmlURL: htmlURL, type: type, followersURL: followersURL, followingURL: followingURL, gistsURL: gistsURL, starredURL: starredURL, subscriptionsURL: subscriptionsURL, organizationsURL: organizationsURL, reposURL: reposURL, eventsURL: eventsURL, receivedEventsURL: receivedEventsURL, siteAdmin: siteAdmin, company: company, blog: blog, location: location, email: email, hireable: hireable, bio: bio, publicRepos: publicRepos, publicGists: publicGists, followers: followers, following: following, createdAt: createdAt, updatedAt: updatedAt)
+			return GithubUser(login: login,
+			                  id: id,
+			                  avatarURL: avatarURL,
+			                  url: url,
+			                  name: name,
+			                  htmlURL: htmlURL,
+			                  type: type,
+			                  followersURL: followersURL,
+			                  followingURL: followingURL,
+			                  gistsURL: gistsURL,
+			                  starredURL: starredURL,
+			                  subscriptionsURL: subscriptionsURL,
+			                  organizationsURL: organizationsURL,
+			                  reposURL: reposURL,
+			                  eventsURL: eventsURL,
+			                  receivedEventsURL: receivedEventsURL,
+			                  siteAdmin: siteAdmin,
+			                  company: company,
+			                  blog: blog,
+			                  location: location,
+			                  email: email,
+			                  hireable: hireable,
+			                  bio: bio,
+			                  publicRepos: publicRepos,
+			                  publicGists: publicGists,
+			                  followers: followers,
+			                  following: following,
+			                  createdAt: createdAt,
+			                  updatedAt: updatedAt)
 		default:
 			fatalError("JSON Type Error")
 		}

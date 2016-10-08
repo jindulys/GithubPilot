@@ -81,7 +81,8 @@ internal struct URLQueryEncoding: ParameterEncoding {
 		return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
 	}
 	
-	func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+	func encode(_ urlRequest: URLRequestConvertible,
+	            with parameters: Parameters?) throws -> URLRequest {
 		guard var urlRequest = urlRequest.urlRequest else {
 			throw GithubRequestError.InvalidRequest
 		}

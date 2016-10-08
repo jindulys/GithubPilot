@@ -44,9 +44,9 @@ open class ReposRoutes {
 		return RpcRequest(client: self.client,
 		                  host: "api",
 		                  route: "/repos/\(owner)/\(name)",
-			method: .get,
-			responseSerializer: RepoSerializer(),
-			errorSerializer: StringSerializer())
+											method: .get,
+											responseSerializer: RepoSerializer(),
+											errorSerializer: StringSerializer())
 	}
 	
 	/**
@@ -89,13 +89,13 @@ open class ReposRoutes {
 		return RpcCustomResponseRequest(client: self.client,
 		                                host: "api",
 		                                route: "/users/\(owner)/repos",
-			method: .get,
-			params: ["page":page],
-			postParams: nil,
-			postData: nil,
-			customResponseHandler:httpResponseHandler,
-			responseSerializer: RepoArraySerializer(),
-			errorSerializer: StringSerializer())
+																		method: .get,
+																		params: ["page":page],
+																		postParams: nil,
+																		postData: nil,
+																		customResponseHandler:httpResponseHandler,
+																		responseSerializer: RepoArraySerializer(),
+																		errorSerializer: StringSerializer())
 	}
 	
 	/**
